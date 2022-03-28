@@ -11,7 +11,9 @@ class AuroraData {
     val date = LocalDate.now()
     val dateTime = LocalDateTime.now()
 
-    //latitude and longitude for the chosen position
+    //Posisjon-API
+    val positionSource = PositionStackDatasource()
+    //Bredde og lengdegrad for spesifisert posisjon hentes fra API-et
     var lat: Double = 0.0
     var lon: Double = 0.0
 
@@ -20,20 +22,21 @@ class AuroraData {
     lateinit var sunrise: Location
 
     //Clouds
+    val cloudScource = CloudDataSource()
+    lateinit var clouds: MutableList<Timeseries?>
 
     //Kp
-    val kpSource = KpDataSource()
+    val kpSource = KpDatasource()
     var kp: Int = 0
 
 
     suspend fun AuroraProbabilityNowcast(placeName: String){
-        //regner ut sannsynligheten nå
-        //bruker GetLocation til å hente den valgte plasseringen i lat og long
-        //sender denne infoen til de forskjellige Check-funksjonene
-        //bruker resultatene til å avgjøre om det er sannsynlighet for nordlysobservasjoner
+        //Regner ut sannsynligheten nå
+        //Bruker GetLocation til å hente den valgte plasseringen i lat og lon
+        //Sender denne infoen til de forskjellige Check-funksjonene
 
         GetLocation(placeName)
-        GetSunrise(lat, lon, date.toString())
+        GetSunrise()
         GetClouds()
         GetKp()
 
@@ -47,25 +50,29 @@ class AuroraData {
         //dette burde kanskje flyttes til en egen klasse for å kunne bruke dataen til å lage en grafisk fremstilling
     }
 
-    fun GetLocation(placeName: String){
+    suspend fun GetLocation(placeName: String){
         //hente bredde og lengdegrad fra stedsnavn
+        val position = positionSource.fetchCordinates(placeName)
 
-        lat = latfraplacename
-        lon = lonfraplacename
+        lat = position?.latitude?.toDouble()!!
+        lon = position?.longitude?.toDouble()!!
     }
 
-    suspend fun GetSunrise(lat: Double, lon: Double, date: String){
+    suspend fun GetSunrise(){
         //hente og sette info fra API i en variabel sender in lon og lat og tid
-        sunrise = sunriseSource.fetchSunriseNowcast(lat, lon, date)!!
+        sunrise = sunriseSource.FetchSunriseNowcast(lat, lon, date.toString())!!
     }
 
-    fun GetClouds(){
+    suspend fun GetClouds(){
         //hente og sette info fra API i en variabel
+        clouds = cloudScource.fetchSky(lat, lon)!!
     }
 
-    fun GetKp(){
+    suspend fun GetKp(){
         //hente og sette info fra API i en variabel
-        kp = kpSource.fetchKpNowcast()!!
+        val kpList = kpSource.fetchNordlys()!!
+        //må finne en måte å hente ut den "nærmeste" kp-varslingen fra listen og så hente ut element 1 som er kp: Int
+        //kp = kpList.get(1)
     }
 
     fun CheckSunrise(): Boolean{
@@ -86,22 +93,28 @@ class AuroraData {
         return false
     }
 
-    fun CheckClouds(){
+    fun CheckClouds(): Boolean{
         //sjekker mot locationforecast for både lave,middels og høye skyer
         //returnerer en boolean
+
+        return false
     }
 
     fun CheckKp(): Boolean{
         //sjekker kp-verdi fra NOAA og tar hensyn til estimert kp og breddegrad
         //returnerer en boolean
 
-        //fra https://github.com/alexcviek/project-1/blob/master/src/js/app.js
+        //https://www.rando-lofoten.net/en/forecasts/aurora-borealis-forcast/514-prevision-with-the-kp-index
         //Kp-verider over terskelverdiene:
-        if(lat < 60 && kp >= 5 ||
-            lat >= 62 && kp >= 4 ||
-            lat >= 65 && kp >= 3 ||
-            lat >= 68 && kp >= 2 ||
-            lat >= 70 && kp >= 1) {
+        if(lat >= 48 && kp >= 9 ||
+            lat >= 50 && kp >= 8 ||
+            lat >= 52 && kp >= 7 ||
+            lat >= 54 && kp >= 6 ||
+            lat >= 56 && kp >= 5 ||
+            lat >= 58 && kp >= 4 ||
+            lat >= 60 && kp >= 3 ||
+            lat >= 63 && kp >= 2 ||
+            lat >= 65 && kp >= 1) {
             return true
         }
         return false
