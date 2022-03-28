@@ -42,7 +42,7 @@ class SunriseDataSource {
     */
 
     //Fetches data from the sunrise API for date only
-    suspend fun fetchSunriseNowcast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
+    suspend fun FetchSunriseNowcast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
         val parameters = listOf("date" to date, "lat" to lat, "lon" to lon, "offset" to "+02:00") //Kanskje lurt å endre offset etter hovr vi er.
 
         return try {
@@ -60,7 +60,7 @@ class SunriseDataSource {
     }
 
     //Fetches data from the sunrise API for date and 2 days forward (total of 3 days)
-    suspend fun fetchSunriseForecast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
+    suspend fun FetchSunriseForecast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
         val parameters = listOf("date" to date, "days" to "3", "lat" to lat, "lon" to lon, "offset" to "+02:00") //Kanskje lurt å endre offset etter hvor vi er.
 
         return try {
