@@ -1,33 +1,31 @@
 package com.example.in2000project.data
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 //Ansvarlig: Tiril
 class AuroraData {
     //Time and date variables
-    val time = LocalTime.now()
-    val date = LocalDate.now()
-    val dateTime = LocalDateTime.now()
+    private val time: LocalTime = LocalTime.now()
+    private val date = LocalDate.now()
 
     //Posisjon-API
-    val positionSource = PositionStackDatasource()
+    private val positionSource = PositionStackDatasource()
     //Bredde og lengdegrad for spesifisert posisjon hentes fra API-et
-    var lat: Double = 0.0
-    var lon: Double = 0.0
+    private var lat: Double = 0.0
+    private var lon: Double = 0.0
 
     //Sunrise
-    val sunriseSource = SunriseDataSource()
-    lateinit var sunrise: Location
+    private val sunriseSource = SunriseDataSource()
+    private lateinit var sunrise: Location
 
     //Clouds
-    val cloudScource = CloudDataSource()
-    lateinit var clouds: MutableList<Timeseries?>
+    private val cloudScource = CloudDataSource()
+    private lateinit var clouds: MutableList<Timeseries?>
 
     //Kp
-    val kpSource = KpDatasource()
-    var kp: Int = 0
+    private val kpSource = KpDatasource()
+    private var kp: Int = 0
 
 
     suspend fun AuroraProbabilityNowcast(placeName: String){
@@ -55,7 +53,7 @@ class AuroraData {
         val position = positionSource.fetchCordinates(placeName)
 
         lat = position?.latitude?.toDouble()!!
-        lon = position?.longitude?.toDouble()!!
+        lon = position.longitude?.toDouble()!!
     }
 
     suspend fun GetSunrise(){
