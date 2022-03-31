@@ -3,4 +3,5 @@
     <string name="hjem">Hjem</string>
     <string name="kart">Kart</string>
     <string name="info">Info</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
