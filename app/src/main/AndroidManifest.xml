@@ -26,6 +26,7 @@
         <!--
         nøkkelen er opprettet privat, tenker det kan være lurt å spørre hvordan de anbefaler å gjøre det
         -->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDwCNaqWUmdhVxch8YqBDVWiwohGKLLH8Y" />

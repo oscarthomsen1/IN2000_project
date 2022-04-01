@@ -12,5 +12,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        TODO("Opprette listener til bottomnavigationbar sin map-knapp og koble maps-activity til den")
+
     }
 }
