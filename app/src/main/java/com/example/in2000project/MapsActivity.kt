@@ -1,7 +1,9 @@
 package com.example.in2000project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -10,11 +12,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.in2000project.databinding.ActivityMapsBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private val TAG = "MapsActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        /**
+         * A listener and the necessary variables for the bottom navigation menu.
+         */
+        //region BottomNavigationMenu
+        val bottomNavigationMenu = findViewById<BottomNavigationView>(
+            R.id.bottom_navigation)
+        bottomNavigationMenu.selectedItemId = R.id.map
+        bottomNavigationMenu.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home-> {
+                    Log.d(TAG, "Home at the navigation menu was pressed.")
+                    startActivity( Intent(this, MainActivity::class.java) )
+                }
+                R.id.map-> {
+                    Log.d(TAG, "Map at the navigation menu was pressed.")
+                    startActivity( Intent(this, MapsActivity::class.java) )
+                }
+                R.id.info-> {
+                    Log.d(TAG, "Info at the navigation menu was pressed.")
+                    startActivity( Intent(this, InfoActivity::class.java) )
+                }
+            }
+            true
+        }
+        //endregion
     }
 
     /**
