@@ -1,9 +1,15 @@
 package com.example.in2000project
 
+
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.example.in2000project.databinding.ActivityInfoBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -24,6 +30,8 @@ class InfoActivity : AppCompatActivity() {
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.info
+        val slideDirection2 : Animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
+
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home-> {
