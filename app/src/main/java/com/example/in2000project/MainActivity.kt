@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         scope.launch {
             binding.northernLight.text = "Høy sjanse å se nordlys nå!" // replace with auroraDatasource.AuroraProbabilityNowcast(OSLO)
             binding.currentTime.text = LocalTime.now()
-                .format(DateTimeFormatter.ofPattern("H:m"))
+                .format(DateTimeFormatter.ofPattern("HH:mm"))
                 .toString()
             binding.cloudCoverage.text =  "50%" // replace with auroraDatasource.GetClouds()
             binding.kpIndex.text = "4" // replace with auroraDatasource.GetKp()
