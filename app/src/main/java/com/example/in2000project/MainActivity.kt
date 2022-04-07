@@ -1,7 +1,6 @@
 package com.example.in2000project
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -20,9 +19,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = "MainActivity"
     private val OSLO = "Oslo"
-    private val URL_SUN = "https://cdn0.iconfinder.com/data/icons/weather-navy-volume-2/64/Summer-512.png"
-    private val URL_CLOUDS = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather04-512.png"
-    private val URL_MOON = "https://media1.thehungryjpeg.com/thumbs2/800_3573745_ofa2jycw80r3wk1fpxny39aiy2cnbw00m2m0tymx_moon-icon.jpg"
 
     private val auroraDatasource = AuroraData()
     val scope = CoroutineScope(Dispatchers.IO)
@@ -48,17 +44,17 @@ class MainActivity : AppCompatActivity() {
         // Otherwise shows sun icon
         if (auroraDatasource.CheckClouds()) {
             Glide.with(binding.weatherImage)
-                .load(Uri.parse(URL_CLOUDS))
+                .load(R.drawable.ic_baseline_cloud_24)
                 .into(binding.weatherImage);
-        } else if (true) { // replace with auroraDatasource.CheckSunrise() when it is working
-            Glide.with(binding.weatherImage)
-                .load(Uri.parse(URL_MOON))
-                .into(binding.weatherImage);
-        } else {
-            Glide.with(binding.weatherImage)
-                .load(Uri.parse(URL_SUN))
-                .into(binding.weatherImage);
-        }
+            } else if (true) { // replace with auroraDatasource.CheckSunrise() when it is working
+                Glide.with(binding.weatherImage)
+                    .load(R.drawable.ic_baseline_moon_24)
+                    .into(binding.weatherImage);
+            } else {
+                Glide.with(binding.weatherImage)
+                    .load(R.drawable.ic_baseline_wb_sunny_24)
+                    .into(binding.weatherImage);
+            }
         //endregion
 
         /**
