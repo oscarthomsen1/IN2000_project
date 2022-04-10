@@ -72,15 +72,16 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 com.example.in2000project.R.id.home-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
-                    startActivity( Intent(this, MainActivity::class.java) )
                 }
                 com.example.in2000project.R.id.map-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
                     startActivity( Intent(this, MapsActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
                 com.example.in2000project.R.id.info-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
                     startActivity( Intent(this, InfoActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
             }
             true

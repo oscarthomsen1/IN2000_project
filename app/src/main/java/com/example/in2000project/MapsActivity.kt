@@ -54,14 +54,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                 R.id.home-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
                     startActivity( Intent(this, MainActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                 }
                 R.id.map-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
-                    startActivity( Intent(this, MapsActivity::class.java) )
                 }
                 R.id.info-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
                     startActivity( Intent(this, InfoActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
             }
             true
