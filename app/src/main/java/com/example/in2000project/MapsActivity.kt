@@ -41,10 +41,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         /**
          * A listener and the necessary variables for the bottom navigation menu.
          */
-        //region BottomNavigationMenu
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.map
+        setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+
+    }
+
+    private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home-> {
@@ -62,7 +66,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
             }
             true
         }
-        //endregion
     }
 
     /**

@@ -60,10 +60,14 @@ class MainActivity : AppCompatActivity() {
         /**
          * A listener and the necessary variables for the bottom navigation menu.
          */
-        //region BottomNavigationMenu
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             com.example.in2000project.R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = com.example.in2000project.R.id.home
+        setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+
+    }
+
+    private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
                 com.example.in2000project.R.id.home-> {
@@ -81,6 +85,5 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        //endregion
     }
 }

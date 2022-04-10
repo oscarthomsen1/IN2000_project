@@ -26,12 +26,13 @@ class InfoActivity : AppCompatActivity() {
         /**
          * A listener and the necessary variables for the bottom navigation menu.
          */
-        //region BottomNavigationMenu
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.info
-        val slideDirection2 : Animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
+        setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+    }
 
+    private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home-> {
@@ -49,6 +50,5 @@ class InfoActivity : AppCompatActivity() {
             }
             true
         }
-        //endregion
     }
 }
