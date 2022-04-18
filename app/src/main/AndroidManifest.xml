@@ -11,8 +11,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        >
+        android:supportsRtl="true">
+
+        <!--
+        Theme kan settes på denne måten:
+        android:theme="@style/Theme.IN2000ProjectDark"
+        -->
 
         <!--
              TODO: Before you run your application, you need a Google Maps API key.

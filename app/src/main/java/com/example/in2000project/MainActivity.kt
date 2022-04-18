@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.in2000project.data.AuroraData
 import com.example.in2000project.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
@@ -19,8 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private val OSLO = "Oslo"
 
-    val viewModel: MainActivityViewModel = MainActivityViewModel()
-
+    private val auroraDatasource = AuroraData()
     val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //ViewModel
-        viewModel.loadDataSource()
 
         //region UpperMenu
         scope.launch {
@@ -49,15 +46,15 @@ class MainActivity : AppCompatActivity() {
             Glide.with(binding.weatherImage)
                 .load(R.drawable.ic_baseline_cloud_24)
                 .into(binding.weatherImage);
-        } else if (true) { // replace with auroraDatasource.CheckSunrise() when it is working
-            Glide.with(binding.weatherImage)
-                .load(R.drawable.ic_baseline_moon_24)
-                .into(binding.weatherImage);
-        } else {
-            Glide.with(binding.weatherImage)
-                .load(R.drawable.ic_baseline_wb_sunny_24)
-                .into(binding.weatherImage);
-        }
+            } else if (true) { // replace with auroraDatasource.CheckSunrise() when it is working
+                Glide.with(binding.weatherImage)
+                    .load(R.drawable.ic_baseline_moon_24)
+                    .into(binding.weatherImage);
+            } else {
+                Glide.with(binding.weatherImage)
+                    .load(R.drawable.ic_baseline_wb_sunny_24)
+                    .into(binding.weatherImage);
+            }
         //endregion
 
         /**

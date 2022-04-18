@@ -26,29 +26,30 @@ class InfoActivity : AppCompatActivity() {
         /**
          * A listener and the necessary variables for the bottom navigation menu.
          */
-        //region BottomNavigationMenu
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.info
-        val slideDirection2 : Animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
+        setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+    }
 
+    private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.home-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
                     startActivity( Intent(this, MainActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                 }
                 R.id.map-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
                     startActivity( Intent(this, MapsActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                 }
                 R.id.info-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
-                    startActivity( Intent(this, InfoActivity::class.java) )
                 }
             }
             true
         }
-        //endregion
     }
 }
