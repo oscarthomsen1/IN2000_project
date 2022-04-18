@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 class CloudDataSource {
-    suspend fun fetchSky(lat : Double, lon : Double) : MutableList<Timeseries?>? {
+    suspend fun fetchSky(lat : Double, lon : Double) : List<Timeseries?>? {
         try {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://in2000-apiproxy.ifi.uio.no")
@@ -34,7 +34,7 @@ interface MetApi {
 
 data class SkyRespons(var properties : Properties?)
 
-data class Properties(var timeseries : MutableList<Timeseries?>?)
+data class Properties(var timeseries : List<Timeseries?>?)
 
 data class Timeseries(var data : Data?)
 

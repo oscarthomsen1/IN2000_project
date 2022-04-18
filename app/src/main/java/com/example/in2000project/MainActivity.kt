@@ -1,12 +1,10 @@
 package com.example.in2000project
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.in2000project.data.AuroraData
 import com.example.in2000project.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
@@ -20,11 +18,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = "MainActivity"
     private val OSLO = "Oslo"
-    private val URL_SUN = "https://cdn0.iconfinder.com/data/icons/weather-navy-volume-2/64/Summer-512.png"
-    private val URL_CLOUDS = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather04-512.png"
-    private val URL_MOON = "https://media1.thehungryjpeg.com/thumbs2/800_3573745_ofa2jycw80r3wk1fpxny39aiy2cnbw00m2m0tymx_moon-icon.jpg"
 
-    private val auroraDatasource = AuroraData()
+    val viewModel: MainActivityViewModel = MainActivityViewModel()
+
     val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //ViewModel
+        viewModel.loadDataSource()
 
         //region UpperMenu
         scope.launch {
@@ -48,15 +47,15 @@ class MainActivity : AppCompatActivity() {
         // Otherwise shows sun icon
         if (auroraDatasource.CheckClouds()) {
             Glide.with(binding.weatherImage)
-                .load(Uri.parse(URL_CLOUDS))
+                .load(R.drawable.ic_baseline_cloud_24)
                 .into(binding.weatherImage);
         } else if (true) { // replace with auroraDatasource.CheckSunrise() when it is working
             Glide.with(binding.weatherImage)
-                .load(Uri.parse(URL_MOON))
+                .load(R.drawable.ic_baseline_moon_24)
                 .into(binding.weatherImage);
         } else {
             Glide.with(binding.weatherImage)
-                .load(Uri.parse(URL_SUN))
+                .load(R.drawable.ic_baseline_wb_sunny_24)
                 .into(binding.weatherImage);
         }
         //endregion
@@ -64,27 +63,31 @@ class MainActivity : AppCompatActivity() {
         /**
          * A listener and the necessary variables for the bottom navigation menu.
          */
-        //region BottomNavigationMenu
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             com.example.in2000project.R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = com.example.in2000project.R.id.home
+        setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+
+    }
+
+    private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
                 com.example.in2000project.R.id.home-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
-                    startActivity( Intent(this, MainActivity::class.java) )
                 }
                 com.example.in2000project.R.id.map-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
                     startActivity( Intent(this, MapsActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
                 com.example.in2000project.R.id.info-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
                     startActivity( Intent(this, InfoActivity::class.java) )
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
             }
             true
         }
-        //endregion
     }
 }
