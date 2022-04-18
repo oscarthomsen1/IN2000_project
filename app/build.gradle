@@ -81,4 +81,7 @@ dependencies {
 
     //androidx activity
     implementation("androidx.activity:activity-ktx:1.6.0-alpha01")
+
+    //CardView
+    implementation("androidx.cardview:cardview:1.0.0")
 }
