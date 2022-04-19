@@ -57,9 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         //endregion
 
-        /**
-         * A listener and the necessary variables for the bottom navigation menu.
-         */
+        // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             com.example.in2000project.R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = com.example.in2000project.R.id.home
