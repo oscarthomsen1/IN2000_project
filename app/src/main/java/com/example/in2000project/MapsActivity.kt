@@ -19,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.example.in2000project.databinding.ActivityMapsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+//Ansvarlig: Kristin
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
