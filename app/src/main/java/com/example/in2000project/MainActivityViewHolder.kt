@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 class MainActivityViewModel: ViewModel() {
     val datasource: AuroraData = AuroraData()
 
-    fun loadDataSource(){
+    fun loadProbability(placename: String){
         viewModelScope.launch(Dispatchers.IO){
-            datasource.AuroraProbabilityNowcast("Oslo")
+            datasource.AuroraProbabilityNowcast(placename)
         }
     }
 }
