@@ -1,12 +1,14 @@
 package com.example.in2000project.data
 
 //Ansvarlig: Oscar
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 class CloudDataSource {
+private val TAG = "CloudDataSource"
     suspend fun fetchSky(lat : Double, lon : Double) : List<Timeseries?>? {
         try {
             val retrofit = Retrofit.Builder()
@@ -18,7 +20,7 @@ class CloudDataSource {
             val respons = service.fetchSkyData(lat.toString(), lon.toString())
             return respons.properties?.timeseries
         } catch (exception : Exception) {
-            println("A network request exception was thrown: ${exception.message}")
+            Log.d(TAG,"A network request exception was thrown: ${exception.message}")
         }
         return null
     }
