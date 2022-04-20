@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private val OSLO = "Oslo"
 
-    private val auroraDatasource = AuroraData()
+    private val viewModel = MainActivityViewModel()
     val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.loadProbability("Tromsø")
 
         //region UpperMenu
         scope.launch {
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             binding.kpIndex.text = "4" // replace with auroraDatasource.GetKp()
         }
 
+        /*
         // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
         // Checks if it is night. If yes shows moon icon
         // Otherwise shows sun icon
@@ -55,11 +58,11 @@ class MainActivity : AppCompatActivity() {
                     .load(R.drawable.ic_baseline_wb_sunny_24)
                     .into(binding.weatherImage);
             }
+
+         */
         //endregion
 
-        /**
-         * A listener and the necessary variables for the bottom navigation menu.
-         */
+        // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             com.example.in2000project.R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = com.example.in2000project.R.id.home

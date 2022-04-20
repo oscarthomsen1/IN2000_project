@@ -1,12 +1,14 @@
 package com.example.in2000project.data
 
 //Ansvarlig: Oscar
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 class PositionStackDatasource {
+    private val TAG = "PositionStackDataSource"
     suspend fun fetchCordinates(query : String) : Position? {
         try {
             val retrofit = Retrofit.Builder()
@@ -18,7 +20,7 @@ class PositionStackDatasource {
             val respons = service.fetchCordinates("e7b8d998277664d86be0823d1d776c87", query, "NO,DK,FI,FO,IS,SE")
             return respons.data[0]
         } catch (exception : Exception) {
-            println("A network request exception was thrown: ${exception.message}")
+            Log.d(TAG,"A network request exception was thrown: ${exception.message}")
         }
         return null
     }

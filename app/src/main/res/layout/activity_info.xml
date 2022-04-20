@@ -18,7 +18,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Info Activity"
+        android:text="@string/info_activity"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
+        android:contentDescription="@string/navigate_to_settings"
         app:srcCompat="@drawable/ic_baseline_settings_24" />
 
 

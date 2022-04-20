@@ -12,6 +12,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.in2000project.databinding.ActivityInfoBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class InfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInfoBinding
@@ -23,13 +24,16 @@ class InfoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        /**
-         * A listener and the necessary variables for the bottom navigation menu.
-         */
+        // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.info
         setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+
+        // Setting a onclick listener for the floating action button to settings activity.
+        val foatingActionButton = findViewById<FloatingActionButton>(
+            R.id.floatingActionButton)
+        setFloatingActionButtonOnClickListener(foatingActionButton)
     }
 
     private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
@@ -50,6 +54,13 @@ class InfoActivity : AppCompatActivity() {
                 }
             }
             true
+        }
+    }
+
+    private fun setFloatingActionButtonOnClickListener(button: FloatingActionButton) {
+        button.setOnClickListener {
+            Log.d(TAG, "Settings button clicked!")
+            startActivity( Intent(this, SettingsActivity::class.java) )
         }
     }
 }

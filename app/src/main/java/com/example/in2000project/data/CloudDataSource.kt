@@ -1,12 +1,15 @@
 package com.example.in2000project.data
 
 //Ansvarlig: Oscar
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 class CloudDataSource {
+    private val TAG = "CloudDataSource"
+
     suspend fun fetchSky(lat : Double, lon : Double) : MutableList<Timeseries?>? {
         try {
             val retrofit = Retrofit.Builder()
@@ -15,10 +18,10 @@ class CloudDataSource {
                 .build()
 
             val service: MetApi = retrofit.create(MetApi::class.java)
-            val respons = service.fetchSkyData(lat.toString(), lon.toString())
+            val respons = service.fetchSkyData(lat.toString(), lon.toString(), "3")
             return respons.properties?.timeseries
         } catch (exception : Exception) {
-            println("A network request exception was thrown: ${exception.message}")
+            Log.d(TAG,"A network request exception was thrown: ${exception.message}")
         }
         return null
     }
@@ -28,7 +31,8 @@ interface MetApi {
     @GET("https://in2000-apiproxy.ifi.uio.no/weatherapi/locationforecast/2.0/complete?")
     suspend fun fetchSkyData(
         @Query("lat") lat : String,
-        @Query("lon") lon : String
+        @Query("lon") lon : String,
+        @Query("days") days : String
     ) : SkyRespons
 }
 

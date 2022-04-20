@@ -20,6 +20,7 @@ viewModel.getSunrise().observe(this) {
 //Info om API-et: https://api.met.no/weatherapi/sunrise/2.0/documentation#!/data/get
 class SunriseDataSource {
     private val gson = Gson()
+    private val TAG = "SunriseDataSource"
 
     //val examplePath = "https://in2000-apiproxy.ifi.uio.no/weatherapi/sunrise/2.0/.json?lat=59.933333&lon=10.716667&date=2022-03-17&offset=+01:00"
 
@@ -43,7 +44,7 @@ class SunriseDataSource {
 
     //Fetches data from the sunrise API for date only
     suspend fun FetchSunriseNowcast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
-        val parameters = listOf("date" to date, "lat" to lat, "lon" to lon, "offset" to "+02:00") //Kanskje lurt å endre offset etter hovr vi er.
+        val parameters = listOf("lat" to lat, "lon" to lon, "date" to date, "offset" to "+02:00") //Kanskje lurt å endre offset etter hovr vi er.
 
         return try {
             val res = Fuel.get(mainpath, parameters).awaitString()
@@ -51,10 +52,11 @@ class SunriseDataSource {
             val response =  gson.fromJson(res, Base::class.java)
 
             //Log.d("DATASOURCE", response.location.toString())
+            if (response != null) Log.d(TAG, "Got response from Sunrise API")
             response.location
 
         } catch (exception: Exception) {
-            Log.d("DATASOURCE","A network request exception was thrown ${exception.message}")
+            Log.d(TAG,"A network request exception was thrown from Sunrise ${exception.message}")
             null
         }
     }
@@ -68,11 +70,12 @@ class SunriseDataSource {
             //Log.d("DATASOURCE", res)
             val response =  gson.fromJson(res, Base::class.java)
 
-            Log.d("DATASOURCE", response.location.toString())
+            //Log.d("DATASOURCE", response.location.toString())
+            if (response != null) Log.d(TAG, "Got response from Sunrise API")
             response.location
 
         } catch (exception: Exception) {
-            Log.d("DATASOURCE","A network request exception was thrown ${exception.message}")
+            Log.d(TAG,"A network request exception was thrown from Sunrise ${exception.message}")
             null
         }
         //TODO("endre offset etter hvor man er i verden (

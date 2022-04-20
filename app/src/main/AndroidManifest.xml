@@ -3,8 +3,8 @@
     package="com.example.in2000project">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,6 @@
         Theme kan settes på denne måten:
         android:theme="@style/Theme.IN2000ProjectDark"
         -->
-
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -29,10 +28,7 @@
              project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
              "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
         -->
-        <!--
-        nøkkelen er opprettet privat, tenker det kan være lurt å spørre hvordan de anbefaler å gjøre det
-        -->
-
+        <!--         nøkkelen er opprettet privat, tenker det kan være lurt å spørre hvordan de anbefaler å gjøre det -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDwCNaqWUmdhVxch8YqBDVWiwohGKLLH8Y" />
@@ -40,30 +36,28 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.IN2000Project"
-            >
+            android:theme="@style/Theme.IN2000Project">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"
             android:exported="false"
-            android:theme="@style/Theme.IN2000Project"
-            />
-
+            android:label="@string/title_activity_maps"
+            android:theme="@style/Theme.IN2000Project" />
         <activity
             android:name=".InfoActivity"
-            android:label="@string/info"
             android:exported="false"
-            android:theme="@style/Theme.IN2000Project"
-            />
-
-
+            android:label="@string/info"
+            android:theme="@style/Theme.IN2000Project" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.IN2000Project"/>
     </application>
 
 </manifest>
