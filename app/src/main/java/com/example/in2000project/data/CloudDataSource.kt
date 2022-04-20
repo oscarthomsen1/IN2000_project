@@ -8,7 +8,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 class CloudDataSource {
-private val TAG = "CloudDataSource"
+    private val TAG = "CloudDataSource"
+
     suspend fun fetchSky(lat : Double, lon : Double) : List<Timeseries?>? {
         try {
             val retrofit = Retrofit.Builder()
