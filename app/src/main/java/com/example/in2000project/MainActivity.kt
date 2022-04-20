@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.loadProbability("Oslo")
+        viewModel.loadProbability("Tromsø")
 
         //region UpperMenu
         scope.launch {

@@ -10,7 +10,7 @@ import retrofit2.http.Query
 class CloudDataSource {
     private val TAG = "CloudDataSource"
 
-    suspend fun fetchSky(lat : Double, lon : Double) : List<Timeseries?>? {
+    suspend fun fetchSky(lat : Double, lon : Double) : MutableList<Timeseries?>? {
         try {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://in2000-apiproxy.ifi.uio.no")
@@ -18,7 +18,7 @@ class CloudDataSource {
                 .build()
 
             val service: MetApi = retrofit.create(MetApi::class.java)
-            val respons = service.fetchSkyData(lat.toString(), lon.toString())
+            val respons = service.fetchSkyData(lat.toString(), lon.toString(), "3")
             return respons.properties?.timeseries
         } catch (exception : Exception) {
             Log.d(TAG,"A network request exception was thrown: ${exception.message}")
@@ -31,13 +31,14 @@ interface MetApi {
     @GET("https://in2000-apiproxy.ifi.uio.no/weatherapi/locationforecast/2.0/complete?")
     suspend fun fetchSkyData(
         @Query("lat") lat : String,
-        @Query("lon") lon : String
+        @Query("lon") lon : String,
+        @Query("days") days : String
     ) : SkyRespons
 }
 
 data class SkyRespons(var properties : Properties?)
 
-data class Properties(var timeseries : List<Timeseries?>?)
+data class Properties(var timeseries : MutableList<Timeseries?>?)
 
 data class Timeseries(var data : Data?)
 

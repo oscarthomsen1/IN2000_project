@@ -28,7 +28,7 @@ class KpDatasource {
         val nordlysListe = mutableListOf<Nordlys>()
         if (listen != null) {
             for (n in listen) {
-                nordlysListe.add(counter, Nordlys(n?.get(0), n?.get(1)?.toInt(), n?.get(2), n?.get(3)))
+                nordlysListe.add(counter, Nordlys(n?.get(0), n?.get(1), n?.get(2), n?.get(3)))
                 counter++
             }
             Log.d(TAG, "Made nordlysobjekt")
@@ -38,4 +38,4 @@ class KpDatasource {
     }
 }
 
-data class Nordlys(var time_tag : String?, var kp : Int?, var observed : String?, var noaa_scale : String?)
+data class Nordlys(var time_tag : String?, var kp : String?, var observed : String?, var noaa_scale : String?)

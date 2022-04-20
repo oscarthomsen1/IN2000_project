@@ -44,7 +44,7 @@ class SunriseDataSource {
 
     //Fetches data from the sunrise API for date only
     suspend fun FetchSunriseNowcast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
-        val parameters = listOf("date" to date, "lat" to lat, "lon" to lon, "offset" to "+02:00") //Kanskje lurt å endre offset etter hovr vi er.
+        val parameters = listOf("lat" to lat, "lon" to lon, "date" to date, "offset" to "+02:00") //Kanskje lurt å endre offset etter hovr vi er.
 
         return try {
             val res = Fuel.get(mainpath, parameters).awaitString()
