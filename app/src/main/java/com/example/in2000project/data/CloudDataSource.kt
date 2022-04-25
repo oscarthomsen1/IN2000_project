@@ -18,7 +18,7 @@ class CloudDataSource {
                 .build()
 
             val service: MetApi = retrofit.create(MetApi::class.java)
-            val respons = service.fetchSkyData(lat.toString(), lon.toString(), "3")
+            val respons = service.fetchSkyData(lat.toString(), lon.toString())
             return respons.properties?.timeseries
         } catch (exception : Exception) {
             Log.d(TAG,"A network request exception was thrown: ${exception.message}")
@@ -31,8 +31,7 @@ interface MetApi {
     @GET("https://in2000-apiproxy.ifi.uio.no/weatherapi/locationforecast/2.0/complete?")
     suspend fun fetchSkyData(
         @Query("lat") lat : String,
-        @Query("lon") lon : String,
-        @Query("days") days : String
+        @Query("lon") lon : String
     ) : SkyRespons
 }
 

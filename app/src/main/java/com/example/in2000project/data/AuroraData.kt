@@ -1,12 +1,9 @@
 package com.example.in2000project.data
 
-import android.app.appsearch.SetSchemaRequest
-import android.util.Log
-import java.lang.Exception
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import kotlin.properties.Delegates
 
 //Ansvarlig Tiril
 class AuroraData {
@@ -23,32 +20,43 @@ class AuroraData {
 
     //Sunrise
     private val sunriseSource = SunriseDataSource()
-    private var sunriseData: Location? = null
+    private lateinit var sunriseData: Location
     private lateinit var sunriseTime: LocalDateTime
     private lateinit var sunsetTime: LocalDateTime
 
     //Clouds
     private val cloudScource = CloudDataSource()
     private lateinit var cloudData: MutableList<Timeseries?>
-    private var cloudFraction: Double? = null
+    private var cloudFraction by Delegates.notNull<Double>()
 
     //Kp
     private val kpSource = KpDatasource()
     lateinit var kpData: MutableList<Nordlys>
-    var kp: Int? = null
+    private var kp by Delegates.notNull<Int>()
+
+    fun createValues(): MutableList<Any> {
+        val data = mutableListOf<Any>()
+        data.add(sunriseTime)
+        data.add(sunsetTime)
+        data.add(cloudFraction)
+        data.add(kp)
+
+        return data
+    }
 
     //Hovedaktivitet
-    suspend fun AuroraProbabilityNowcast(placeName: String){
+    suspend fun AuroraProbabilityNowcast(placeName: String): MutableList<Any> {
         //Regner ut sannsynligheten nå for gitt posisjon
         //Sender denne infoen til de forskjellige Check-funksjonene
 
-        //
         GetLocation(placeName)
         GetSunrise()
         GetClouds()
         GetKp()
 
         //Når det funker å hente fra APIene må man checke og returnere
+
+        return createValues()
     }
 
 
@@ -67,12 +75,13 @@ class AuroraData {
         setSunriseAndSunset()
     }
 
+
     suspend fun GetClouds(){
         //hente og sette info fra API i en variabel
         cloudData = cloudScource.fetchSky(lat, lon)!!
 
         //Set cloudfraction som global variabel:
-        cloudFraction = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction
+        cloudFraction = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction!!
     }
 
     suspend fun GetKp() {
@@ -85,11 +94,11 @@ class AuroraData {
 
     //Funksjoner som setter de lokale variablene
     fun setSunriseAndSunset() {
-        val sunriseTimeStringOffset = sunriseData?.time?.get(0)?.sunrise?.time
+        val sunriseTimeStringOffset = sunriseData.time?.get(0)?.sunrise?.time
         val sunriseTimeString = sunriseTimeStringOffset?.dropLast(6) //fjerner offset
         sunriseTime = LocalDateTime.parse(sunriseTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
-        val sunsetTimeStringOffset = sunriseData?.time?.get(0)?.sunset?.time
+        val sunsetTimeStringOffset = sunriseData.time?.get(0)?.sunset?.time
         val sunsetTimeString = sunsetTimeStringOffset?.dropLast(6) //fjerner offset
         sunsetTime = LocalDateTime.parse(sunsetTimeString, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
@@ -130,6 +139,7 @@ class AuroraData {
         return false
     }
 
+
     fun CheckClouds(): Boolean{
         //sjekker mot locationforecast for både lave,middels og høye skyer
         //returnerer en boolean
@@ -138,13 +148,11 @@ class AuroraData {
         val midClouds: Double? = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction_medium
         val lowClouds: Double? = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction_low
 
-        if (cloudFraction != null) {
-            if (cloudFraction!! > 30.0){
-                if ((lowClouds!! + midClouds!!) < 10.0){
-                    return true //Dette betyr at det kun er høye skyer
-                }
-                return false
+        if (cloudFraction > 30.0){
+            if ((lowClouds!! + midClouds!!) < 10.0){
+                return true //Dette betyr at det kun er høye skyer
             }
+            return false
         }
         return false
     }
@@ -155,15 +163,15 @@ class AuroraData {
 
         //https://www.rando-lofoten.net/en/forecasts/aurora-borealis-forcast/514-prevision-with-the-kp-index
         //Kp-verider over terskelverdiene:
-        if(lat >= 48 && kp!! >= 9 ||
-            lat >= 50 && kp!! >= 8 ||
-            lat >= 52 && kp!! >= 7 ||
-            lat >= 54 && kp!! >= 6 ||
-            lat >= 56 && kp!! >= 5 ||
-            lat >= 58 && kp!! >= 4 ||
-            lat >= 60 && kp!! >= 3 ||
-            lat >= 63 && kp!! >= 2 ||
-            lat >= 65 && kp!! >= 1) {
+        if(lat >= 48 && kp >= 9 ||
+            lat >= 50 && kp >= 8 ||
+            lat >= 52 && kp >= 7 ||
+            lat >= 54 && kp >= 6 ||
+            lat >= 56 && kp >= 5 ||
+            lat >= 58 && kp >= 4 ||
+            lat >= 60 && kp >= 3 ||
+            lat >= 63 && kp >= 2 ||
+            lat >= 65 && kp >= 1) {
             return true
         }
         return false

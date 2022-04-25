@@ -44,8 +44,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //viewModel.loadProbability("Tromsø")
+        viewModel.loadProbability("Tromsø")
+        viewModel.getData().observe(this) {
+            //ADAPTER
+        }
 
+        /*
         //region UpperMenu
         scope.launch {
             binding.northernLight.text = "Høy sjanse å se nordlys nå!" // replace with auroraDatasource.AuroraProbabilityNowcast(OSLO)
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             binding.cloudCoverage.text =  "50%" // replace with auroraDatasource.GetClouds()
             binding.kpIndex.text = "4" // replace with auroraDatasource.GetKp()
         }
-
+         */
         /*
         // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
         // Checks if it is night. If yes shows moon icon
