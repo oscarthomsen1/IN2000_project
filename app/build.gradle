@@ -85,4 +85,7 @@ dependencies {
 
     //CardView
     implementation("androidx.cardview:cardview:1.0.0")
+
+    //MPAndroidCharts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
