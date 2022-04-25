@@ -33,7 +33,7 @@ class SettingsActivity : AppCompatActivity() {
     // this event will enable the back
     // function to the button on press
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(TAG, "Home at the navigation menu was pressed.")
+        Log.d(TAG, "The back button in action bar from settings activity was pressed.")
         startActivity( Intent(this, InfoActivity::class.java) )
 
         return super.onOptionsItemSelected(item)
