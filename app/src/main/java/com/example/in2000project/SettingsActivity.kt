@@ -1,10 +1,17 @@
 package com.example.in2000project
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
 
 class SettingsActivity : AppCompatActivity() {
+
+    private val TAG = "SettingsActivity"
+    private lateinit var actionBar: ActionBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,6 +22,21 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        // calling the action bar
+        actionBar = getSupportActionBar()!!
+
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true)
+    }
+
+    // this event will enable the back
+    // function to the button on press
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "The back button in action bar from settings activity was pressed.")
+        startActivity( Intent(this, InfoActivity::class.java) )
+
+        return super.onOptionsItemSelected(item)
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
