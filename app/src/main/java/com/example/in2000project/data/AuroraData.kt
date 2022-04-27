@@ -34,8 +34,12 @@ class AuroraData {
     lateinit var kpData: MutableList<Nordlys>
     private var kp by Delegates.notNull<Int>()
 
+    //Sjanse for nordlys
+    var nordlys = "Ingen verdi"
+
     fun createValues(): MutableList<Any> {
         val data = mutableListOf<Any>()
+        data.add(nordlys)
         data.add(sunriseTime)
         data.add(sunsetTime)
         data.add(cloudFraction)
@@ -45,7 +49,7 @@ class AuroraData {
     }
 
     //Hovedaktivitet
-    suspend fun AuroraProbabilityNowcast(placeName: String): MutableList<Any> {
+    suspend fun AuroraProbabilityNowcast(placeName: String): MutableList<Any>? {
         //Regner ut sannsynligheten nå for gitt posisjon
         //Sender denne infoen til de forskjellige Check-funksjonene
 
@@ -54,9 +58,22 @@ class AuroraData {
         GetClouds()
         GetKp()
 
-        //Når det funker å hente fra APIene må man checke og returnere
 
-        return createValues()
+        //Når det funker å hente fra APIene må man checke og returnere
+        if (lateInitCheck()){
+            if (CheckSunrise() && CheckClouds() && CheckKp()){
+                nordlys = "Høy sjanse for å se nordlys"
+            } else if (!CheckKp()){
+                nordlys = "For lav geomagnetisk aktivitet til å se nordlys"
+            } else if (!CheckClouds()){
+                nordlys = "For tykt skydekke til å se nordlys"
+            } else if (!CheckSunrise()){
+                nordlys = "For lyst til å se nordlys"
+            }
+
+            return createValues()
+        }
+        return null
     }
 
 
@@ -72,7 +89,12 @@ class AuroraData {
     suspend fun GetSunrise(){
         //hente og sette info fra API i en variabel sender in lon og lat og tid
         sunriseData = sunriseSource.FetchSunriseNowcast(lat, lon, date.toString())!!
-        setSunriseAndSunset()
+
+        if (::sunriseData.isInitialized){
+            setSunriseAndSunset()
+        } else {
+            //noe
+        }
     }
 
 
@@ -81,14 +103,23 @@ class AuroraData {
         cloudData = cloudScource.fetchSky(lat, lon)!!
 
         //Set cloudfraction som global variabel:
-        cloudFraction = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction!!
+        if (::cloudData.isInitialized) {
+            cloudFraction = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction!!
+        } else {
+            //HER MÅ EN VERDI SETTES
+        }
     }
 
     suspend fun GetKp() {
         kpData = kpSource.fetchNordlys()!!
-        kpData.removeAt(0) //fjerner '["time_tag","kp","observed","noaa_scale"]'
 
-        setKpValue()
+        if (::kpData.isInitialized){
+            kpData.removeAt(0) //fjerner '["time_tag","kp","observed","noaa_scale"]'
+
+            setKpValue()
+        } else {
+            //HER MÅ NOE SKJE
+        }
     }
 
 
@@ -144,7 +175,6 @@ class AuroraData {
         //sjekker mot locationforecast for både lave,middels og høye skyer
         //returnerer en boolean
 
-        //val highclouds: Double? = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction_high
         val midClouds: Double? = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction_medium
         val lowClouds: Double? = cloudData.get(0)?.data?.instant?.details?.cloud_area_fraction_low
 
@@ -154,7 +184,7 @@ class AuroraData {
             }
             return false
         }
-        return false
+        return true
     }
 
     fun CheckKp(): Boolean{
@@ -176,7 +206,14 @@ class AuroraData {
         }
         return false
     }
-}
 
-//problemer: Nullpointerexeption nåt api-kallene ikke går
-//Lateinit-problemer
+    fun lateInitCheck(): Boolean {
+        var bool = true
+
+        if (!::sunriseData.isInitialized) bool = false
+        if (!::cloudData.isInitialized) bool = false
+        if (!::kpData.isInitialized) bool = false
+
+        return bool
+    }
+}

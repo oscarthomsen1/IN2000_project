@@ -1,4 +1,4 @@
-package com.example.in2000project
+package com.example.in2000project.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel: ViewModel() {
-    val datasource: AuroraData = AuroraData()
+    private val datasource: AuroraData = AuroraData()
 
     private var data = MutableLiveData<List<Any>>()
 
@@ -24,5 +24,11 @@ class MainActivityViewModel: ViewModel() {
         return data
     }
 
+    fun checkSun(): Boolean{
+        return datasource.CheckSunrise()
+    }
 
+    fun checkClouds(): Boolean{
+        return datasource.CheckClouds()
+    }
 }
