@@ -11,7 +11,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.IN2000ProjectDark">
+
 
         <!--
         Theme kan settes på denne måten:
@@ -36,7 +38,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.IN2000Project">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,17 +49,17 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps"
-            android:theme="@style/Theme.IN2000Project" />
+            />
         <activity
             android:name=".InfoActivity"
             android:exported="false"
             android:label="@string/info"
-            android:theme="@style/Theme.IN2000Project" />
+            />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.IN2000Project"/>
+            />
     </application>
 
 </manifest>
