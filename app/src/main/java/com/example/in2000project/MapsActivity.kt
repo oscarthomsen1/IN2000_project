@@ -2,6 +2,7 @@ package com.example.in2000project
 
 import android.Manifest
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import com.example.in2000project.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
 import com.example.in2000project.PermissionUtils.isPermissionGranted
 
@@ -29,6 +31,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private val TAG = "MapsActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPrefs: SharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(this)
+        setTheme(if (sharedPrefs.getBoolean("darkmode_switch", false)) R.style.Theme_IN2000ProjectDark else R.style.Theme_IN2000ProjectLight)
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)

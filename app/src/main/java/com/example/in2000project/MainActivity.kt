@@ -1,6 +1,7 @@
 package com.example.in2000project
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.in2000project.viewmodels.MainActivityViewModel
+import androidx.preference.PreferenceManager
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
@@ -21,9 +23,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ViewPortHandler
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.chrono.ChronoLocalDateTime
 import java.time.format.DateTimeFormatter
 
 
@@ -34,12 +34,17 @@ class MainActivity : AppCompatActivity() {
     private val viewModel = MainActivityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        // Setting the currently chosen theme from settings
+        val sharedPrefs: SharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(this)
+        setTheme(if (sharedPrefs.getBoolean("darkmode_switch", false)) R.style.Theme_IN2000ProjectDark else R.style.Theme_IN2000ProjectLight)
 
+        // Basic onCreate constructor
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.loadProbability("Oslo")
+        viewModel.loadProbability("Tromsø")
         viewModel.getData().observe(this) {
             binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
                 LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
