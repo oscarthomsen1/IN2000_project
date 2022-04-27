@@ -5,11 +5,13 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.preference.PreferenceManager
 import com.example.in2000project.databinding.ActivityInfoBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,10 +21,15 @@ class InfoActivity : AppCompatActivity() {
     private val TAG = "InfoActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Setting the currently chosen theme from settings
+        val sharedPrefs: SharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(this)
+        setTheme(if (sharedPrefs.getBoolean("darkmode_switch", false)) R.style.Theme_IN2000ProjectDark else R.style.Theme_IN2000ProjectLight)
+
+        // Basic onCreate constructor
         super.onCreate(savedInstanceState)
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(

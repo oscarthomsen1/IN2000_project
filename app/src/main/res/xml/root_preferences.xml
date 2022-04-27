@@ -3,8 +3,9 @@
     <PreferenceCategory app:title="Theme">
 
         <SwitchPreferenceCompat
-            app:key="Darkmode"
-            app:title="Darkmode" />
+            app:key="darkmode_switch"
+            app:title="Darkmode"
+            />
 
 
     </PreferenceCategory>
