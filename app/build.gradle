@@ -48,6 +48,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //Dependencies vi har lagt til
+    // extra test dependencies
+    // Optional -- Robolectric environment
+    testImplementation "androidx.test:core:1.4.0"
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:4.5.1'
+    // Optional -- mockito-kotlin
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:4.0.0'
+    // Optional -- Mockk framework
+    testImplementation 'io.mockk:mockk:1.12.3'
+
     //Fuel
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation 'com.github.kittinunf.fuel:fuel-coroutines:2.3.1'
