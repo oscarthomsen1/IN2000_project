@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io'}
     }
 }
-rootProject.name = "IN2000Project"
+rootProject.name = "Borealys"
 include ':app'
