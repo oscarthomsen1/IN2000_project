@@ -51,11 +51,11 @@ class MainActivity : AppCompatActivity() {
                     .toString()
             binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage)
             binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text =
-                it.get(0).toString()
+                it[0].toString()
             binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text =
-                it.get(4).toString()
+                it[4].toString()
             binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
-                it.get(3).toString() + "%"
+                it[3].toString() + "%"
 
             // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
             // Checks if it is night. If yes shows moon icon

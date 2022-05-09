@@ -10,25 +10,25 @@ import kotlinx.coroutines.launch
 class MainActivityViewModel: ViewModel() {
     private val datasource: AuroraData = AuroraData()
 
-    private var data = MutableLiveData<List<Any>>()
+    private var data = MutableLiveData<List<Any?>>()
 
     fun loadProbability(placename: String){
         viewModelScope.launch(Dispatchers.IO){
-            datasource.AuroraProbabilityNowcast(placename).also {
+            datasource.auroraProbabilityNowcast(placename).also {
                 data.postValue(it)
             }
         }
     }
 
-    fun getData(): MutableLiveData<List<Any>> {
+    fun getData(): MutableLiveData<List<Any?>> {
         return data
     }
 
     fun checkSun(): Boolean{
-        return datasource.CheckSunrise()
+        return datasource.checkSunrise()
     }
 
     fun checkClouds(): Boolean{
-        return datasource.CheckClouds()
+        return datasource.checkClouds()
     }
 }
