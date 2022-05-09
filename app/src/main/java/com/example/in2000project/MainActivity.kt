@@ -85,20 +85,25 @@ class MainActivity : AppCompatActivity() {
                             binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
                                 it[3].toString() + "%"
 
+                            // Checks if there is a high chance of seeing aurora. If yes, show aurora icon
                             // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
                             // Checks if it is night. If yes shows moon icon
                             // Otherwise shows sun icon
-                            if (!viewModel.checkClouds()) {
+                            if (it[0] == "Høy sjanse for å se nordlys") {
                                 Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_baseline_cloud_24)
+                                    .load(R.drawable.ic_aurora)
+                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                            } else if (!viewModel.checkClouds()) {
+                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                                    .load(R.drawable.ic_cloudy)
                                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
                             } else if (viewModel.checkSun()) {
                                 Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_baseline_moon_24)
+                                    .load(R.drawable.ic_moon)
                                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
                             } else {
                                 Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_baseline_wb_sunny_24)
+                                    .load(R.drawable.ic_sunny)
                                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
                             }
                         }
@@ -130,20 +135,25 @@ class MainActivity : AppCompatActivity() {
             binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
                 it[3].toString() + "%"
 
+            // Checks if there is a high chance of seeing aurora. If yes, show aurora icon
             // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
             // Checks if it is night. If yes shows moon icon
             // Otherwise shows sun icon
-            if (!viewModel.checkClouds()) {
+            if (it[0] == "Høy sjanse for å se nordlys") {
                 Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                    .load(R.drawable.ic_baseline_cloud_24)
+                    .load(R.drawable.ic_aurora)
+                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+            } else if (!viewModel.checkClouds()) {
+                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                    .load(R.drawable.ic_cloudy)
                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
             } else if (viewModel.checkSun()) {
                 Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                    .load(R.drawable.ic_baseline_moon_24)
+                    .load(R.drawable.ic_moon)
                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
             } else {
                 Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                    .load(R.drawable.ic_baseline_wb_sunny_24)
+                    .load(R.drawable.ic_sunny)
                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
             }
         }
