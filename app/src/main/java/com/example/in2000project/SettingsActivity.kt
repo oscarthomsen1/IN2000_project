@@ -45,18 +45,19 @@ class SettingsActivity : AppCompatActivity() {
             Log.d(TAG, "Dark mode value changed to:$darkmodeSwitch")
             startActivity( Intent(this, SettingsActivity::class.java) )
         }
-
-
-
-
-
-
     }
 
+    /**
+     * Function that handles the case where you change some settings and
+     * press the standard android back button. This makes sure that the instance
+     * we are trying to return to gets refreshed with the newly changed settings.
+     **/
+    override fun onBackPressed() {
+        val intent = Intent(this, InfoActivity::class.java)
+        startActivity(intent)
+    }
 
-
-    // this event will enable the back
-    // function to the button on press
+    // this event will enable the back function to the button on press
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "The back button in action bar from settings activity was pressed.")
         startActivity( Intent(this, InfoActivity::class.java) )
@@ -64,6 +65,7 @@ class SettingsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // Inner class
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)

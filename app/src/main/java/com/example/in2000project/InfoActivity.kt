@@ -28,6 +28,8 @@ class InfoActivity : AppCompatActivity() {
 
         // Basic onCreate constructor
         super.onCreate(savedInstanceState)
+
+        // Enabling the use of binding
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
