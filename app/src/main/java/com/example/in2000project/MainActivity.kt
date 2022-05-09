@@ -23,6 +23,12 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ViewPortHandler
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -44,6 +50,73 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        //Vi benytter oss av Google sitt Places-API for søk etter steder
+        Places.initialize(getApplicationContext(), getString(R.string.apiKey))
+        Places.createClient(this)
+
+        //Følgende kode er hentet fra: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
+        // Initialize the AutocompleteSupportFragment.
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                    as AutocompleteSupportFragment
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setTypeFilter(TypeFilter.CITIES)
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                val lat = place.latLng?.latitude
+                val lon = place.latLng?.longitude
+
+                if (lat != null && lon != null) {
+                    viewModel.loadProbability(lat, lon).also {
+                        viewModel.getData().observe(this@MainActivity) {
+                            binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
+                                LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    .toString()
+                            binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage)
+                            binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text =
+                                it[0].toString()
+                            binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text =
+                                it[4].toString()
+                            binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
+                                it[3].toString() + "%"
+
+                            // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
+                            // Checks if it is night. If yes shows moon icon
+                            // Otherwise shows sun icon
+                            if (!viewModel.checkClouds()) {
+                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                                    .load(R.drawable.ic_baseline_cloud_24)
+                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                            } else if (viewModel.checkSun()) {
+                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                                    .load(R.drawable.ic_baseline_moon_24)
+                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                            } else {
+                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                                    .load(R.drawable.ic_baseline_wb_sunny_24)
+                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                            }
+                        }
+                    }
+                }
+
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: ${place.name}, ${place.id}")
+            }
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: $status")
+            }
+        })
+
+
+        /*
         viewModel.loadProbability("Tromsø")
         viewModel.getData().observe(this) {
             binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
@@ -74,6 +147,8 @@ class MainActivity : AppCompatActivity() {
                     .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
             }
         }
+
+         */
 
 
         //region graph forecast

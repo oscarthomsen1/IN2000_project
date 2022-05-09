@@ -6,16 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Søk etter sted"
+        style="?attr/materialCardViewFilledStyle"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/sannsynlighetsView"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/sannsynlighetsView"
@@ -28,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/nordlysVarsel"
-        app:layout_constraintTop_toBottomOf="@id/searchView">
+        app:layout_constraintTop_toBottomOf="@id/test">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +57,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor = "?android:textColorPrimary" />
 
             <ImageView
                 android:id="@+id/weatherImage"
@@ -63,7 +76,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
                 android:text="Nordlys:"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor = "?android:textColorPrimary" />
 
 
             <TextView
@@ -73,7 +86,7 @@
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="-90dp"
                 android:text="KP-index"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor = "?android:textColorPrimary" />
 
             <TextView
                 android:id="@+id/kpIndex"
@@ -82,7 +95,7 @@
                 android:layout_marginStart="280dp"
                 android:layout_marginTop="-20dp"
                 android:text="TextView"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor = "?android:textColorPrimary"/>
 
 
             <TextView
@@ -92,7 +105,7 @@
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="-55dp"
                 android:text="Skydekke"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor = "?android:textColorPrimary" />
 
             <TextView
                 android:id="@+id/cloudCoverage"
@@ -101,7 +114,7 @@
                 android:layout_marginStart="280dp"
                 android:layout_marginTop="-21dp"
                 android:text="TextView"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor = "?android:textColorPrimary"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

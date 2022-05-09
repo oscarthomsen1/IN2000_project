@@ -11,11 +11,14 @@ class AuroraData {
     private val date: LocalDate = LocalDate.now()
     private var dateTime: LocalDateTime = LocalDateTime.now()
 
+
+
     //Posisjon-API
-    private val positionSource = PositionStackDatasource()
+    //private val positionSource = PositionStackDatasource()
     //Bredde og lengdegrad for spesifisert posisjon hentes fra API-et
     private var lat: Double = 0.0
     private var lon: Double = 0.0
+
 
     //Sunrise
     private val sunriseSource = SunriseDataSource()
@@ -48,11 +51,14 @@ class AuroraData {
     }
 
     //Hovedaktivitet
-    suspend fun auroraProbabilityNowcast(placeName: String): MutableList<Any?> {
+    suspend fun auroraProbabilityNowcast(latIn: Double, lonIn: Double): MutableList<Any?> {
         //Regner ut sannsynligheten nå for gitt posisjon
         //Sender denne infoen til de forskjellige Check-funksjonene
 
-        getLocation(placeName)
+        lat = latIn
+        lon = lonIn
+
+        //getLocation(placeName)
         getSunrise()
         getClouds()
         getKp()
@@ -74,6 +80,7 @@ class AuroraData {
     }
 
 
+    /*
     //Funksjoner som henter fra API-datakildene
     private suspend fun getLocation(placeName: String){
         //hente bredde og lengdegrad fra stedsnavn
@@ -82,6 +89,7 @@ class AuroraData {
         lat = position?.latitude?.toDouble()!!
         lon = position.longitude?.toDouble()!!
     }
+     */
 
     private suspend fun getSunrise(){
         //hente og sette info fra API i en variabel sender in lon og lat og tid

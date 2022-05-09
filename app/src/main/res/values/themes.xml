@@ -28,6 +28,8 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
+
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
     <style name="Theme.IN2000ProjectDark" parent="Theme.Material3.Dark.NoActionBar">
@@ -57,6 +59,8 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
+
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
 </resources>

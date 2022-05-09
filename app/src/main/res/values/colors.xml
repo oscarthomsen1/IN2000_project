@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <!-- Dark Mode theme -->
-    <color name="md_theme_dark_primary">#FFAFD3</color>
+    <color name="md_theme_dark_primary">#AD738D</color>
     <color name="md_theme_dark_onPrimary">#5C113C</color>
     <color name="md_theme_dark_primaryContainer">#792953</color>
     <color name="md_theme_dark_onPrimaryContainer">#FFD9E8</color>
@@ -40,7 +42,7 @@
 
 
     <!-- Light Mode colors-->
-    <color name="md_theme_light_primary">#285EA7</color>
+    <color name="md_theme_light_primary">#B1D2FF</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#D5E3FF</color>
     <color name="md_theme_light_onPrimaryContainer">#001B3F</color>
@@ -72,5 +74,4 @@
     <color name="md_theme_light_inversePrimary">#E6B4FF</color>
     <color name="md_theme_light_shadow">#000000</color>
     <color name="md_theme_light_primaryInverse">#E6B4FF</color>
-    
 </resources>

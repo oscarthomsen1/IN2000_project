@@ -1,4 +1,5 @@
 <resources>
+    <string name="apiKey">AIzaSyDwCNaqWUmdhVxch8YqBDVWiwohGKLLH8Y</string>
     <string name="app_name">IN2000Project</string>
     <string name="hjem">Hjem</string>
     <string name="kart">Kart</string>
