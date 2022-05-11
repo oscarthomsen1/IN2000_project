@@ -19,6 +19,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.example.in2000project.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 //Ansvarlig: Kristin
@@ -86,13 +89,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        /*mMap = googleMap
+        mMap = googleMap
+
 
         // Add a marker in Oslo and move the camera
         val oslo = LatLng(59.9139, 10.7522)
-        mMap.addMarker(MarkerOptions().position(oslo).title("Marker in Oslo"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(oslo))*/
-        mMap = googleMap
+        //mMap.addMarker(MarkerOptions().position(oslo).title("Marker in Oslo"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(oslo))
 
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
