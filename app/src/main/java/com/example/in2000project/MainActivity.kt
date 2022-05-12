@@ -1,34 +1,43 @@
 package com.example.in2000project
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import com.example.in2000project.databinding.ActivityMainBinding
-import com.github.mikephil.charting.data.LineDataSet
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.graphics.Color
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.example.in2000project.viewmodels.MainActivityViewModel
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.bumptech.glide.Glide
+import com.example.in2000project.databinding.ActivityMainBinding
+import com.example.in2000project.utils.PermissionUtils
+import com.example.in2000project.viewmodels.MainActivityViewModel
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -36,6 +45,8 @@ import java.time.format.DateTimeFormatter
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = "MainActivity"
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val viewModel = MainActivityViewModel()
 
@@ -50,7 +61,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Gir appen tilgang til posisjon og oppdaterer views med posisjonsdata
+        checkLocationPermission()
 
+        //Knapp som oppdaterer viewet med brukerens posisjon
+        val posisjonsKnapp = binding.dinPosisjson
+        posisjonsKnapp.setOnClickListener {
+            checkLocationPermission()
+        }
+
+        //region autoComplete-Søk
+        //Ansvarlig Tiril
         //Vi benytter oss av Google sitt Places-API for søk etter steder
         Places.initialize(getApplicationContext(), getString(R.string.apiKey))
         Places.createClient(this)
@@ -72,46 +93,10 @@ class MainActivity : AppCompatActivity() {
                 val lon = place.latLng?.longitude
 
                 if (lat != null && lon != null) {
-                    viewModel.loadProbability(lat, lon).also {
-                        viewModel.getData().observe(this@MainActivity) {
-                            binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
-                                LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-                                    .toString()
-                            binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage)
-                            binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text =
-                                it[0].toString()
-                            binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text =
-                                it[4].toString()
-                            binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
-                                it[3].toString() + "%"
-
-                            // Checks if there is a high chance of seeing aurora. If yes, show aurora icon
-                            // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
-                            // Checks if it is night. If yes shows moon icon
-                            // Otherwise shows sun icon
-                            if (it[0] == "Høy sjanse for å se nordlys") {
-                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_aurora)
-                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
-                            } else if (!viewModel.checkClouds()) {
-                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_cloudy)
-                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
-                            } else if (viewModel.checkSun()) {
-                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_moon)
-                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
-                            } else {
-                                Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
-                                    .load(R.drawable.ic_sunny)
-                                    .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
-                            }
-                        }
-                    }
+                    bind(lat, lon)
+                    binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text =
+                        place.name
                 }
-
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: ${place.name}, ${place.id}")
             }
 
             override fun onError(status: Status) {
@@ -119,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "An error occurred: $status")
             }
         })
+        //endregion
 
         //region graph forecast
         //Ansvarlig: Oscar
@@ -166,16 +152,75 @@ class MainActivity : AppCompatActivity() {
         nordlysvarsel.data = data
         nordlysvarsel.invalidate()
 
-        //end region
-
+        //endregion
 
         // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.home
         setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
-
     }
+
+    //region updater view
+    //Ansvarlig Julia
+    //Metode som kommuniserer mot API-ene via ViewModelen og binder til viewet
+    fun bind(lat: Double, lon: Double){
+        viewModel.loadProbability(lat, lon).also {
+            viewModel.getData().observe(this@MainActivity) {
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
+                    LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+                        .toString()
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime))
+
+                setVisibility(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text =
+                    it[0].toString()
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight))
+
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text =
+                    it[4].toString()
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex))
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndexLabel))
+
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
+                    it[3].toString() + "%"
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage))
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverageLabel))
+
+
+                // Checks if there is a high chance of seeing aurora. If yes, show aurora icon
+                // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
+                // Checks if it is night. If yes shows moon icon
+                // Otherwise shows sun icon
+                if (it[0] == "Høy sjanse for å se nordlys") {
+                    Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                        .load(R.drawable.ic_aurora)
+                        .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                } else if (!viewModel.checkClouds()) {
+                    Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                        .load(R.drawable.ic_cloudy)
+                        .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                } else if (viewModel.checkSun()) {
+                    Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                        .load(R.drawable.ic_moon)
+                        .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                } else {
+                    Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
+                        .load(R.drawable.ic_sunny)
+                        .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                }
+            }
+        }
+    }
+
+    fun setVisibility(view: View){
+        if (view.visibility == View.INVISIBLE){
+            view.visibility = View.VISIBLE
+        }
+    }
+    //endregion
+
 
     private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
@@ -198,6 +243,62 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    //region posisjonstilgang
+    //Ansvarlig Tiril
+    private fun checkLocationPermission(){
+        if (ContextCompat.checkSelfPermission(this@MainActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+            PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this@MainActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(this@MainActivity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            } else {
+                ActivityCompat.requestPermissions(this@MainActivity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            }
+        } else {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                if (it != null){
+                    val lat = it.latitude
+                    val lon = it.longitude
+
+                    bind(lat, lon)
+                    binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text =
+                        "Din posisjon"
+                } else {
+                    //TODO
+                    //on error bind
+                    //Type 'ingen data å vise'
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED) {
+                    if ((ContextCompat.checkSelfPermission(this@MainActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION) ==
+                                PackageManager.PERMISSION_GRANTED)) {
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+        }
+    }
+    //endregion
 
     //region functions and classes for graph
     private fun datavalues1() : ArrayList<Entry> {

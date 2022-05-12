@@ -1,4 +1,4 @@
-package com.example.in2000project
+package com.example.in2000project.utils
 
 // Copyright 2020 Google LLC
 //

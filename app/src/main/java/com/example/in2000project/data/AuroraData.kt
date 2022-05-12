@@ -11,10 +11,6 @@ class AuroraData {
     private val date: LocalDate = LocalDate.now()
     private var dateTime: LocalDateTime = LocalDateTime.now()
 
-
-
-    //Posisjon-API
-    //private val positionSource = PositionStackDatasource()
     //Bredde og lengdegrad for spesifisert posisjon hentes fra API-et
     private var lat: Double = 0.0
     private var lon: Double = 0.0
@@ -39,6 +35,7 @@ class AuroraData {
     //Sjanse for nordlys
     private var nordlys = "Ingen verdi"
 
+    //Liste med variabler som kan brukes i viewet
     private fun createValues(): MutableList<Any?> {
         val data = mutableListOf<Any?>()
         data.add(nordlys)
@@ -51,21 +48,22 @@ class AuroraData {
     }
 
     //Hovedaktivitet
+    //Angir sannsynlighet for nordlys nå ved gitt posisjon
+    //Henter fra API-ene
+    //Sender denne infoen til de forskjellige Check-funksjonene
     suspend fun auroraProbabilityNowcast(latIn: Double, lonIn: Double): MutableList<Any?> {
-        //Regner ut sannsynligheten nå for gitt posisjon
-        //Sender denne infoen til de forskjellige Check-funksjonene
-
+        //Setter bredde og legndegrad for å kunne sende til API-ene
         lat = latIn
         lon = lonIn
 
-        //getLocation(placeName)
+        //Henter data fra API-ene
         getSunrise()
         getClouds()
         getKp()
 
-
-        //Når det funker å hente fra APIene må man checke og returnere
+        //Sjekker verdier som kan utløse excepions
         if (lateInitCheck() && nullCheck()){
+            //Bruker check-funksjonene om det er mulig å se nordlys
             if (checkSunrise() && checkClouds() && checkKp()){
                 nordlys = "Høy sjanse for å se nordlys"
             } else if (!checkKp()){
@@ -79,17 +77,6 @@ class AuroraData {
         return createValues()
     }
 
-
-    /*
-    //Funksjoner som henter fra API-datakildene
-    private suspend fun getLocation(placeName: String){
-        //hente bredde og lengdegrad fra stedsnavn
-        val position = positionSource.fetchCordinates(placeName)
-
-        lat = position?.latitude?.toDouble()!!
-        lon = position.longitude?.toDouble()!!
-    }
-     */
 
     private suspend fun getSunrise(){
         //hente og sette info fra API i en variabel sender in lon og lat og tid
@@ -106,7 +93,7 @@ class AuroraData {
 
         //Set cloudfraction som global variabel:
         if (::cloudData.isInitialized) {
-            cloudFraction = cloudData[0]?.data?.instant?.details?.cloud_area_fraction!!
+            cloudFraction = cloudData[2]?.data?.instant?.details?.cloud_area_fraction!!
         }
     }
 
@@ -189,7 +176,9 @@ class AuroraData {
         //sjekker kp-verdi fra NOAA og tar hensyn til estimert kp og breddegrad
         //returnerer en boolean
 
+        //Tall hentet fra siden
         //https://www.rando-lofoten.net/en/forecasts/aurora-borealis-forcast/514-prevision-with-the-kp-index
+
         //Kp-verider over terskelverdiene:
         if(lat >= 48 && kp!! >= 9 ||
             lat >= 50 && kp!! >= 8 ||
@@ -205,6 +194,8 @@ class AuroraData {
         return false
     }
 
+
+    //Sjekk-funksjoner for nullable og lateinit verdier
     private fun lateInitCheck(): Boolean {
         var bool = true
 

@@ -12,13 +12,16 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.example.in2000project.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
-import com.example.in2000project.PermissionUtils.isPermissionGranted
+import com.example.in2000project.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
+import com.example.in2000project.utils.PermissionUtils.isPermissionGranted
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.example.in2000project.databinding.ActivityMapsBinding
+import com.example.in2000project.utils.PermissionUtils
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 //Ansvarlig: Kristin
@@ -86,13 +89,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        /*mMap = googleMap
+        mMap = googleMap
+
 
         // Add a marker in Oslo and move the camera
         val oslo = LatLng(59.9139, 10.7522)
-        mMap.addMarker(MarkerOptions().position(oslo).title("Marker in Oslo"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(oslo))*/
-        mMap = googleMap
+        //mMap.addMarker(MarkerOptions().position(oslo).title("Marker in Oslo"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(oslo))
 
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
@@ -101,19 +104,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     /*
     Copyright 2020 Google LLC
-
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
     Uses files MyLocationDemoActivity.kt: https://github.com/googlemaps/android-samples/blob/main/ApiDemos/kotlin/app/src/gms/java/com/example/kotlindemos/MyLocationDemoActivity.kt
     And com.example.google_maps_test.com.example.in2000project.PermissionUtils.kt: https://github.com/googlemaps/android-samples/blob/main/ApiDemos/kotlin/app/src/gms/java/com/example/kotlindemos/PermissionUtils.kt
     https://developers.google.com/maps/documentation/android-sdk/location#kotlin */

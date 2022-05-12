@@ -23,4 +23,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="kp_index">KP-index</string>
+    <string name="v_rikon">Værikon</string>
+    <string name="skydekke">Skydekke</string>
+    <string name="ingen_data">Ingen data</string>
 </resources>
