@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 
@@ -14,7 +15,8 @@ import androidx.preference.PreferenceManager
 class SettingsActivity : AppCompatActivity() {
 
     private val TAG = "SettingsActivity"
-    private lateinit var actionBar: ActionBar
+    lateinit var actionBar: ActionBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Setting the currently chosen theme from settings
@@ -55,15 +57,18 @@ class SettingsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent(this, InfoActivity::class.java)
         startActivity(intent)
+        this.finish()
     }
 
     // this event will enable the back function to the button on press
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "The back button in action bar from settings activity was pressed.")
         startActivity( Intent(this, InfoActivity::class.java) )
+        this.finish()
 
         return super.onOptionsItemSelected(item)
     }
+
 
     // Inner class
     class SettingsFragment : PreferenceFragmentCompat() {

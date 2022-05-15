@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/navHome"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/hjem"/>
     <item
-        android:id="@+id/map"
+        android:id="@+id/navMap"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_map_24"
         android:title="@string/kart"/>
     <item
-        android:id="@+id/info"
+        android:id="@+id/navInfo"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_info_24"
         android:title="@string/info"/>

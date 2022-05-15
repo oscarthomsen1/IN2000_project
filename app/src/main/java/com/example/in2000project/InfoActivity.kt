@@ -36,7 +36,7 @@ class InfoActivity : AppCompatActivity() {
         // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
-        bottomNavigationMenu.selectedItemId = R.id.info
+        bottomNavigationMenu.selectedItemId = R.id.navInfo
         setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
 
         // Setting a onclick listener for the floating action button to settings activity.
@@ -48,17 +48,19 @@ class InfoActivity : AppCompatActivity() {
     private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.home-> {
+                R.id.navHome-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
                     startActivity( Intent(this, MainActivity::class.java) )
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                    this.finish()
                 }
-                R.id.map-> {
+                R.id.navMap-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
                     startActivity( Intent(this, MapsActivity::class.java) )
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                    this.finish()
                 }
-                R.id.info-> {
+                R.id.navInfo-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
                 }
             }
@@ -70,6 +72,7 @@ class InfoActivity : AppCompatActivity() {
         button.setOnClickListener {
             Log.d(TAG, "Settings button clicked!")
             startActivity( Intent(this, SettingsActivity::class.java) )
+            this.finish()
         }
     }
 }

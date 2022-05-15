@@ -12,14 +12,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.example.in2000project.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
-import com.example.in2000project.utils.PermissionUtils.isPermissionGranted
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.example.in2000project.databinding.ActivityMapsBinding
 import com.example.in2000project.utils.PermissionUtils
+import com.example.in2000project.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
+import com.example.in2000project.utils.PermissionUtils.isPermissionGranted
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -41,6 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
         super.onCreate(savedInstanceState)
 
+
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -54,7 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
          */
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
-        bottomNavigationMenu.selectedItemId = R.id.map
+        bottomNavigationMenu.selectedItemId = R.id.navMap
         setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
 
     }
@@ -62,18 +63,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.home-> {
+                R.id.navHome-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
+
                     startActivity( Intent(this, MainActivity::class.java) )
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                    this.finish()
                 }
-                R.id.map-> {
+                R.id.navMap-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
                 }
-                R.id.info-> {
+                R.id.navInfo-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
                     startActivity( Intent(this, InfoActivity::class.java) )
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    this.finish()
                 }
             }
             true

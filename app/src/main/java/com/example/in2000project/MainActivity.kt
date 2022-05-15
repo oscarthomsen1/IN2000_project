@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
-        bottomNavigationMenu.selectedItemId = R.id.home
+        bottomNavigationMenu.selectedItemId = R.id.navHome
         setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
         //endregion
     }
@@ -212,18 +212,20 @@ class MainActivity : AppCompatActivity() {
     private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.home-> {
+                R.id.navHome-> {
                     Log.d(TAG, "Home at the navigation menu was pressed.")
                 }
-                R.id.map-> {
+                R.id.navMap-> {
                     Log.d(TAG, "Map at the navigation menu was pressed.")
                     startActivity( Intent(this, MapsActivity::class.java) )
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    this.finish()
                 }
-                R.id.info-> {
+                R.id.navInfo-> {
                     Log.d(TAG, "Info at the navigation menu was pressed.")
                     startActivity( Intent(this, InfoActivity::class.java) )
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    this.finish()
                 }
             }
             true
