@@ -9,20 +9,21 @@ import kotlinx.coroutines.launch
 
 //Ansvarlig Tiril
 class MainActivityViewModel: ViewModel() {
+    val TAG = "MainActivityViewModel"
     private val datasource: AuroraData = AuroraData()
 
-    private var data = MutableLiveData<List<Any?>>()
+    var viewModelData = MutableLiveData<List<Any?>>()
 
     fun loadProbability(lat: Double, lon: Double){
         viewModelScope.launch(Dispatchers.IO){
             datasource.auroraProbabilityNowcast(lat, lon).also {
-                data.postValue(it)
+                viewModelData.postValue(it)
             }
         }
     }
 
     fun getData(): MutableLiveData<List<Any?>> {
-        return data
+        return viewModelData
     }
 
     fun checkSun(): Boolean{
