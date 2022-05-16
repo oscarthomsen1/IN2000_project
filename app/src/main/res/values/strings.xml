@@ -27,4 +27,5 @@
     <string name="v_rikon">Værikon</string>
     <string name="skydekke">Skydekke</string>
     <string name="ingen_data">Ingen data</string>
+    <string name="din_posisjon">Din posisjon</string>
 </resources>

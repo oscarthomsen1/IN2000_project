@@ -16,18 +16,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             tools:context=".MainActivity">
-
-            <Button
-                android:id="@+id/dinPosisjson"
-                android:text="Din posisjon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/søk"
-                app:layout_constraintTop_toTopOf="parent">
-            </Button>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/søk"
@@ -38,8 +28,8 @@
                 app:cardElevation="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/sannsynlighetsView"
-                app:layout_constraintTop_toBottomOf="@id/dinPosisjson">
+                app:layout_constraintBottom_toTopOf="@id/dinPosisjson"
+                app:layout_constraintTop_toBottomOf="parent">
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/autocomplete_fragment"
@@ -50,6 +40,20 @@
                     app:layout_constraintStart_toStartOf="parent"/>
             </com.google.android.material.card.MaterialCardView>
 
+            <Button
+                android:id="@+id/dinPosisjson"
+                android:text="@string/din_posisjon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sannsynlighetsView"
+                app:layout_constraintTop_toBottomOf="@+id/søk"
+                app:icon="@drawable/ic_baseline_my_location_24"
+                style="@style/Widget.Material3.Button.Icon">
+            </Button>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/sannsynlighetsView"
@@ -62,7 +66,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/nordlysVarsel"
-                app:layout_constraintTop_toBottomOf="@id/søk">
+                app:layout_constraintTop_toBottomOf="@id/dinPosisjson">
 
                 <LinearLayout
                     android:layout_width="match_parent"

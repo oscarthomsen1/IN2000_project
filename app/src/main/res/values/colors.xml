@@ -4,7 +4,7 @@
     <color name="black">#000000</color>
 
     <!-- Dark Mode theme -->
-    <color name="md_theme_dark_primary">#AD738D</color>
+    <color name="md_theme_dark_primary">#E4B0C7</color>
     <color name="md_theme_dark_onPrimary">#5C113C</color>
     <color name="md_theme_dark_primaryContainer">#792953</color>
     <color name="md_theme_dark_onPrimaryContainer">#FFD9E8</color>
@@ -42,7 +42,7 @@
 
 
     <!-- Light Mode colors-->
-    <color name="md_theme_light_primary">#B1D2FF</color>
+    <color name="md_theme_light_primary">#9FB9E0</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#D5E3FF</color>
     <color name="md_theme_light_onPrimaryContainer">#001B3F</color>

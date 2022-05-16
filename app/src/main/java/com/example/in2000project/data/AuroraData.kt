@@ -67,7 +67,7 @@ class AuroraData {
             if (checkSunrise() && checkClouds() && checkKp()){
                 nordlys = "Høy sjanse for å se nordlys"
             } else if (!checkKp()){
-                nordlys = "For lav geomagnetisk aktivitet til å se nordlys"
+                nordlys = "For lav solvind-aktivitet til å se nordlys"
             } else if (!checkClouds()){
                 nordlys = "For tykt skydekke til å se nordlys"
             } else if (!checkSunrise()){
