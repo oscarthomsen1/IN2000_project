@@ -21,7 +21,6 @@ class MainActivityViewModelTest {
 
     @Before
     fun setUp() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
         viewModel = MainActivityViewModel()
         viewModel.loadProbability(59.9139, 10.7522)
     }
