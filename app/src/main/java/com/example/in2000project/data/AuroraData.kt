@@ -113,7 +113,7 @@ class AuroraData {
     }
     private fun setCloudGraphData(size : Int): MutableList<Float?> {
         val cloudList = mutableListOf<Float?>()
-        val total = (size*3)+2
+        val total = (size*3)
 
         for(i in 1..total) {
             cloudList.add(cloudData[i]?.data?.instant?.details?.cloud_area_fraction?.toFloat())
