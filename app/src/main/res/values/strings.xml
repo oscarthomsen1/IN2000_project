@@ -8,21 +8,6 @@
     <string name="navigate_to_settings">Navigate to settings</string>
     <string name="info_activity">Info Activity</string>
     <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="kp_index">KP-index</string>
     <string name="v_rikon">Værikon</string>
     <string name="skydekke">Skydekke</string>
@@ -75,5 +60,6 @@ Krever 2 kp
 Breddegrad: 65
 Krever 1 kp
 </string>
->>>>>>> d038e60 (La til graf-endringer)
+    <string name="picture_that_discribes_the_northern_lights">Picture that discribes the northern lights</string>
+    >>>>>>> d038e60 (La til graf-endringer)
 </resources>
