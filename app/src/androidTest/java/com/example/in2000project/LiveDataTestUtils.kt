@@ -8,7 +8,7 @@ import java.util.concurrent.TimeoutException
 
 // Ansvarlig Tobias
 /**
- * LiveData extension funtion.
+ * LiveData extension function.
  * Used for testing LiveData.
  * Gets the live data or waits for the data. (2 seconds timeout)
  */
