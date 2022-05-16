@@ -17,8 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.example.in2000project.databinding.ActivityMainBinding
-import com.example.in2000project.utils.PermissionUtils
 import com.example.in2000project.viewmodels.MainActivityViewModel
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
@@ -45,6 +45,7 @@ import java.time.format.DateTimeFormatter
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = "MainActivity"
+    private val localTime = LocalTime.now()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -106,53 +107,7 @@ class MainActivity : AppCompatActivity() {
         })
         //endregion
 
-        //region graph forecast
-        //Ansvarlig: Oscar
 
-        val nordlysvarsel = binding.nordlysGraf
-
-        val kpLinje = LineDataSet(datavalues1(), "kp verdier")
-        kpLinje.color = Color.CYAN
-        kpLinje.setDrawCircles(false)
-        kpLinje.valueFormatter = KPValueFormater()
-        val skydekeLinje = LineDataSet(datavalues2(), "sky verdier")
-        skydekeLinje.color = Color.BLACK
-        skydekeLinje.setDrawCircles(false)
-        skydekeLinje.valueFormatter = SkyValueFormater()
-        val dataset = ArrayList<ILineDataSet>()
-        dataset.add(kpLinje)
-        dataset.add(skydekeLinje)
-
-        nordlysvarsel.setDrawBorders(true)
-        nordlysvarsel.description = null
-
-        val legend = nordlysvarsel.legend
-        val legendentries = ArrayList<LegendEntry>()
-
-        val legendentryKp = LegendEntry()
-        legendentryKp.formColor = Color.CYAN
-        legendentryKp.label = "KP"
-        legendentries.add(legendentryKp)
-        val legendEntrySky = LegendEntry()
-        legendEntrySky.formColor = Color.BLACK
-        legendEntrySky.label = "Skydekke"
-        legendentries.add(legendEntrySky)
-
-        legend.setCustom(legendentries)
-
-        val yAxisLeft = nordlysvarsel.axisLeft
-        yAxisLeft.valueFormatter = KPAxisFormater()
-        val yAxisRight = nordlysvarsel.axisRight
-        yAxisRight.valueFormatter = SkyAxisFormater()
-        val xAxis = nordlysvarsel.xAxis
-        xAxis.valueFormatter = XAxisFormater()
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-
-        val data = LineData(dataset)
-        nordlysvarsel.data = data
-        nordlysvarsel.invalidate()
-
-        //endregion
 
         //region onClick-Menubar
         //Ansvarlig Tobias
@@ -212,6 +167,30 @@ class MainActivity : AppCompatActivity() {
                     Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
                         .load(R.drawable.ic_sunny)
                         .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
+                }
+
+                //region graph forecast
+                //Ansvarlig: Oscar
+                viewModel.loadGraphData()
+                viewModel.getGraphData().observe(this) {
+                    val kpLinje = LineDataSet(datavalues1(it!![0]), "kpVerdier")
+                    val skydekeLinje = LineDataSet(datavalues2(it[1]) , "sky verdier")
+                    costumizeGraph(binding.nordlysGraf)
+
+                    kpLinje.color = getColor(R.color.md_theme_dark_onTertiary)
+                    kpLinje.setDrawCircles(false)
+                    kpLinje.valueFormatter = KPValueFormater()
+                    skydekeLinje.color = getColor(R.color.md_theme_dark_surface)
+                    skydekeLinje.setDrawCircles(false)
+                    skydekeLinje.valueFormatter = SkyValueFormater()
+                    val dataset = ArrayList<ILineDataSet>()
+                    dataset.add(kpLinje)
+                    dataset.add(skydekeLinje)
+
+                    val data = LineData(dataset)
+                    binding.nordlysGraf.data = data
+                    binding.nordlysGraf.invalidate()
+                    //end region
                 }
             }
         }
@@ -308,44 +287,50 @@ class MainActivity : AppCompatActivity() {
     //endregion
 
     //region functions and classes for graph
-    private fun datavalues1() : ArrayList<Entry> {
+    private fun costumizeGraph(graph : LineChart) {
+        graph.setDrawBorders(true)
+        graph.description = null
+
+        val legend = graph.legend
+        val legendentries = ArrayList<LegendEntry>()
+        val legendentryKp = LegendEntry()
+        legendentryKp.formColor = getColor(R.color.md_theme_dark_onTertiary)
+        legendentryKp.label = "KP"
+        legendentries.add(legendentryKp)
+        val legendEntrySky = LegendEntry()
+        legendEntrySky.formColor = getColor(R.color.md_theme_dark_surface)
+        legendEntrySky.label = "Skydekke"
+        legendentries.add(legendEntrySky)
+        legend.setCustom(legendentries)
+
+        val yAxisLeft = graph.axisLeft
+        yAxisLeft.valueFormatter = KPAxisFormater()
+        val yAxisRight = graph.axisRight
+        yAxisRight.valueFormatter = SkyAxisFormater()
+        val xAxis = graph.xAxis
+        xAxis.valueFormatter = XAxisFormater()
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+    }
+    private fun datavalues1(data : MutableList<Float?>) : ArrayList<Entry> {
         val punkter = ArrayList<Entry>()
-        punkter.add(Entry(0F, 2F))
-        punkter.add(Entry(1F, 2F))
-        punkter.add(Entry(3F, 1F))
-        punkter.add(Entry(4F, 1F))
-        punkter.add(Entry(5F, 3F))
-        punkter.add(Entry(6F, 4F))
-        punkter.add(Entry(7F, 0F))
-        punkter.add(Entry(8F, 1F))
-        punkter.add(Entry(9F, 1F))
-        punkter.add(Entry(10F, 2F))
-        punkter.add(Entry(11F, 1F))
-        punkter.add(Entry(12F, 0F))
-        punkter.add(Entry(13F, 0F))
-        punkter.add(Entry(14F, 1F))
-        punkter.add(Entry(15F, 2F))
-        punkter.add(Entry(16F, 3F))
+        for (i in 0 until data.size) {
+            val x = (i*3).toFloat()
+            punkter.add( Entry(x, data[i] as Float))
+        }
         return punkter
     }
-    private fun datavalues2() : ArrayList<Entry> {
+    private fun datavalues2(data : MutableList<Float?>) : ArrayList<Entry> {
+        var i = 0
         val punkter = ArrayList<Entry>()
-        punkter.add(Entry(0F, 4F))
-        punkter.add(Entry(1F, 7F))
-        punkter.add(Entry(3F, 8F))
-        punkter.add(Entry(4F, 1F))
-        punkter.add(Entry(5F, 2F))
-        punkter.add(Entry(6F, 0F))
-        punkter.add(Entry(7F, 1F))
-        punkter.add(Entry(8F, 3F))
-        punkter.add(Entry(9F, 3F))
-        punkter.add(Entry(10F, 5F))
-        punkter.add(Entry(11F, 7F))
-        punkter.add(Entry(12F, 7F))
-        punkter.add(Entry(13F, 8F))
-        punkter.add(Entry(14F, 9F))
-        punkter.add(Entry(15F, 10F))
-        punkter.add(Entry(16F, 7F))
+        when(localTime.hour-2) {
+            0, 3, 6, 9, 12, 15, 18, 21 -> i = 2
+            1, 4, 7, 10, 13, 16, 19, 22 -> i = if(localTime.minute > 30) { 4 } else { 1 }
+            2, 5, 8, 11, 14, 17, 20, 23 -> i = 3
+        }
+        for (x in i until data.size) {
+            val y = data[x]?.div(10)
+            punkter.add(Entry(x-i.toFloat(), y as Float))
+        }
         return punkter
     }
     private class KPValueFormater : IValueFormatter {
@@ -357,7 +342,6 @@ class MainActivity : AppCompatActivity() {
         ): String {
             return value.toInt().toString()
         }
-
     }
     private class SkyValueFormater : IValueFormatter {
         override fun getFormattedValue(
@@ -366,40 +350,61 @@ class MainActivity : AppCompatActivity() {
             dataSetIndex: Int,
             viewPortHandler: ViewPortHandler?
         ): String {
-            return ((value*10).toInt().toString() + "%")
+            if (entry?.x?.toInt()?.rem(3) == 0) {
+                return ((value * 10).toInt().toString() + "%")
+            }
+            return ""
         }
-
     }
     private class KPAxisFormater : IAxisValueFormatter {
         override fun getFormattedValue(value: Float, axis: AxisBase?): String {
             axis?.axisMinimum = 0F
             return value.toInt().toString()
         }
-
     }
     private class SkyAxisFormater : IAxisValueFormatter {
         override fun getFormattedValue(value: Float, axis: AxisBase?): String {
             axis?.axisMinimum = 0F
-            return (value*10).toInt().toString()
+            return (value*10).toInt().toString() + "%"
         }
-
     }
     private class XAxisFormater : IAxisValueFormatter {
+        var localTimeHour = LocalTime.now().hour
         override fun getFormattedValue(value: Float, axis: AxisBase?): String {
             axis?.axisMinimum = 0F
-            axis?.setLabelCount(5, true)
-            when (value) {
-                0F -> return "00:00"
-                4F -> return "12:00"
-                8F -> return "00:00"
-                12F -> return "12:00"
-                16F -> return "00:00"
-
+            axis?.granularity = 12F
+            if (localTimeHour == 0) {
+                when(value) {
+                    0F -> return "00:00"
+                    12F -> return "12:00"
+                    24F -> return "00:00"
+                    36F -> return "12:00"
+                    48F -> return "00:00"
+                    60F -> return "12:00"
+                    72F -> return "00:00"
+                }
+            } else if (localTimeHour < 12) {
+                when(value) {
+                    0F -> return "$localTimeHour:00"
+                    12F -> return (localTimeHour+12).toString() + ":00"
+                    24F -> return "$localTimeHour:00"
+                    36F -> return (localTimeHour+12).toString() + ":00"
+                    48F -> return "$localTimeHour:00"
+                    60F -> return (localTimeHour+12).toString() + ":00"
+                }
+            } else {
+                when(value) {
+                    0F -> return "$localTimeHour:00"
+                    12F -> return (localTimeHour-12).toString() + ":00"
+                    24F -> return "$localTimeHour:00"
+                    36F -> return (localTimeHour-12).toString() + ":00"
+                    48F -> return "$localTimeHour:00"
+                    60F -> return (localTimeHour-12).toString() + ":00"
+                }
             }
             return value.toString()
         }
-
     }
-    //endregion
+    //end region
 
 }

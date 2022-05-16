@@ -27,5 +27,54 @@
     <string name="v_rikon">Værikon</string>
     <string name="skydekke">Skydekke</string>
     <string name="ingen_data">Ingen data</string>
+<<<<<<< HEAD
     <string name="din_posisjon">Din posisjon</string>
+=======
+
+    <!-- Tekst til infosiden -->
+    <string name="Nordlys">Nordlys</string>
+    <string name="nordlysInfo1">Nordlys er et lysfenomen som oppstår når energirike partikler kommer fra Sola mot Jorda, og hender når elektroner og protoner kolliderer med gassene i atmosfæren. Atomer og molekyler i atmosfæren blir tilført energi som de sender ut igjen som lys.
+
+Nordlys oppstår i den øvre polare atmosfæren, mellom 80 og 5000 kilometer over jordoverflaten.
+
+Fargene på nordlys dekker hele området fra ultrafiolett til infrarødt. Fargene som forekommer blir bestemt av energinivået i partiklene og sammensetningen av atmosfæregassen.
+
+Forekomst og intensitet av nordlys er styrt av aktivitet på Sola, mens Jordas magnetfelt og atmosfære bestemmer hvor nordlyset opptrer.
+</string>
+    <string name="nordlysInfo2">Nordlys er betegnelsen for lysfenomenet på nordre halvkule. På den sørlige halvkule kalles fenomenet sørlys. En fellesbetegnelse for begge er polarlys.
+
+Systematisk, vitenskapelig undersøkelse av nordlys startet på 1600-tallet. Fra 1880-tallet drev den norske fysikeren Kristian Birkeland med nordlysforskning. Han formulerte den første fullstendige nordlysteorien og hans arbeid innledet den moderne nordlysforskningen.
+    </string>
+    <string name="nordlysInfo3">Den sorte grafen fremviser skydekke for ditt område. Skydekke viser prosentdel av himmelen som er forventet dekket av skyer. Det er ønskelig å ha minst mulig skydekke for å se etter nordlys, men man kan fortsatt se lyset med høyt skydekke.
+Den blå grafen viser kp-indeksen. Kp-indeks er et godt mål for sannsynligheten for at nordlys vil oppstå, og det høyere kp, det bedre. Det er forskjellig kp for forskjellige posisjoner på kloden, og ved høyre høydegrad vil du trenge en lavere kp for å kunne se lyset. For eksempel vil kp på 1 være tilstrekkelig I Tromsø, mens man I Oslo vil trenge 5.
+Solnedgang er også viktig for å se nordlyset. Da solen lyser mye sterkere enn nordlyset, er det viktig at den har gått ned for å kunne se det.
+Grafen viser data for de kommende to dagene, da det ikke er mulig å forutse solstormer lengre ut I fremtiden. Dette kommer av at solstormer reiser I tre døgn fra solen til oss.
+</string>
+    <string name="nordlysInfo4">OM KP
+Appen bruker din posisjon til å fremvise skydekket I ditt område. Når skydekket er lavt, og solen er nede, kreves det en relativ kp-indeks avhengig av hvor på kloden du befinner deg.
+
+Om kp-en kun har en verdi på én, vil du for eksempel bare kunne se nordlys om du finner deg i “Kp 1”, som vist i nord på bildet under.
+Dersom kp-en er på 9, vil du kunne se nordlyset helt ned til London, som befinner seg på “Kp 9”.
+
+KP-indeks for ditt område:
+Breddegrad: 48
+Krever 9 kp
+Breddegrad: 50
+Krever 8 kp
+Breddegrad: 52
+Krever 7 kp
+Breddegrad: 54
+Krever 6 kp
+Breddegrad: 56
+Krever 5 kp
+Breddegrad: 58
+Krever 4 kp
+Breddegrad: 60
+Krever 3 kp
+Breddegrad: 63
+Krever 2 kp
+Breddegrad: 65
+Krever 1 kp
+</string>
+>>>>>>> d038e60 (La til graf-endringer)
 </resources>

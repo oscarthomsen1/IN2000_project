@@ -1,5 +1,6 @@
 package com.example.in2000project.data
 
+import android.util.Log
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -76,7 +77,49 @@ class AuroraData {
         }
         return createValues()
     }
+    fun GetGraphData(): MutableList<MutableList<Float?>> {
+        val grafData = mutableListOf<MutableList<Float?>>()
+        grafData.add(0, setKpGraphData())
+        grafData.add(1, setCloudGraphData(grafData[0].size))
+        Log.d("grafData", grafData.toString())
+        return grafData
+    }
 
+    private fun setKpGraphData(): MutableList<Float?> {
+        val kpList = mutableListOf<Float?>()
+        var minsteTid = 24
+        var first = 0
+
+        for (i in 0 until kpData.size) {
+            val tempTimestamp = kpData[i].time_tag.toString()
+            //konvertere tidsstempelet til ISO-standarden for å kunne formattere
+            val timestamp = tempTimestamp.replace(' ', 'T')
+            val kpTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+            val tidMellom = dateTime.compareTo(kpTime)
+
+            if (tidMellom >= -1) {
+                if (tidMellom < minsteTid) {
+                    minsteTid = tidMellom
+                    kp = kpData[i].kp?.toInt()!!
+                    first = i-1
+                }
+            }
+        }
+        for (j in first until kpData.size) {
+            kpList.add(kpData[j].kp?.toFloat())
+        }
+        return kpList
+    }
+    private fun setCloudGraphData(size : Int): MutableList<Float?> {
+        val cloudList = mutableListOf<Float?>()
+        val total = (size*3)+2
+
+        for(i in 1..total) {
+            cloudList.add(cloudData[i]?.data?.instant?.details?.cloud_area_fraction?.toFloat())
+        }
+        return cloudList
+    }
 
     private suspend fun getSunrise(){
         //hente og sette info fra API i en variabel sender in lon og lat og tid

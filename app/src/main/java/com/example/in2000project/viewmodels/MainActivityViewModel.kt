@@ -14,6 +14,8 @@ class MainActivityViewModel: ViewModel() {
 
     var viewModelData = MutableLiveData<List<Any?>>()
 
+    private var graphData = MutableLiveData<MutableList<MutableList<Float?>>?>()
+
     fun loadProbability(lat: Double, lon: Double){
         viewModelScope.launch(Dispatchers.IO){
             datasource.auroraProbabilityNowcast(lat, lon).also {
@@ -22,8 +24,20 @@ class MainActivityViewModel: ViewModel() {
         }
     }
 
+    fun loadGraphData(){
+        viewModelScope.launch(Dispatchers.IO){
+            datasource.GetGraphData().also {
+                graphData.postValue(it)
+            }
+        }
+    }
+
     fun getData(): MutableLiveData<List<Any?>> {
         return viewModelData
+    }
+
+    fun getGraphData(): MutableLiveData<MutableList<MutableList<Float?>>?> {
+        return graphData
     }
 
     fun checkSun(): Boolean{
