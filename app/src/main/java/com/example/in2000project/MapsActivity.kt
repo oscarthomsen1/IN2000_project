@@ -12,13 +12,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.example.in2000project.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
-import com.example.in2000project.PermissionUtils.isPermissionGranted
+import com.example.in2000project.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
+import com.example.in2000project.utils.PermissionUtils.isPermissionGranted
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.example.in2000project.databinding.ActivityMapsBinding
+import com.example.in2000project.utils.PermissionUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions

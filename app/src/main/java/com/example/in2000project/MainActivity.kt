@@ -154,14 +154,17 @@ class MainActivity : AppCompatActivity() {
 
         //endregion
 
+        //region onClick-Menubar
+        //Ansvarlig Tobias
         // Setting a onclick listener for the bottom navigation menu.
         val bottomNavigationMenu = findViewById<BottomNavigationView>(
             R.id.bottom_navigation)
         bottomNavigationMenu.selectedItemId = R.id.home
         setNavigationMenuOnItemSelectedListener(bottomNavigationMenu)
+        //endregion
     }
 
-    //region updater view
+    //region oppdater view
     //Ansvarlig Julia
     //Metode som kommuniserer mot API-ene via ViewModelen og binder til viewet
     fun bind(lat: Double, lon: Double){
@@ -219,9 +222,14 @@ class MainActivity : AppCompatActivity() {
             view.visibility = View.VISIBLE
         }
     }
+
+    fun onErrorView() {
+        binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text = "Ingen data"
+    }
     //endregion
 
-
+    //region onItemSelectedListner
+    //Ansvarlig Tobias
     private fun setNavigationMenuOnItemSelectedListener(bottomNavigationMenu: BottomNavigationView){
         bottomNavigationMenu.setOnItemSelectedListener {
             when(it.itemId){
@@ -242,7 +250,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
+    //endregion
 
     //region posisjonstilgang
     //Ansvarlig Tiril
@@ -269,9 +277,8 @@ class MainActivity : AppCompatActivity() {
                     binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text =
                         "Din posisjon"
                 } else {
-                    //TODO
-                    //on error bind
-                    //Type 'ingen data å vise'
+                    Toast.makeText(this, "Kunne ikke hente posisjon", Toast.LENGTH_SHORT).show()
+                    onErrorView()
                 }
             }
         }
@@ -393,6 +400,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    //end region
+    //endregion
 
 }
