@@ -41,7 +41,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-
+//test
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = "MainActivity"
