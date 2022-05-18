@@ -43,7 +43,7 @@
 
     <!-- Light Mode colors-->
     <color name="md_theme_light_primary">#9FB9E0</color>
-    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_onPrimary">#000000</color>
     <color name="md_theme_light_primaryContainer">#D5E3FF</color>
     <color name="md_theme_light_onPrimaryContainer">#001B3F</color>
 

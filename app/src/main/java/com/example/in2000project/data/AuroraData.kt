@@ -16,7 +16,6 @@ class AuroraData {
     private var lat: Double = 0.0
     private var lon: Double = 0.0
 
-
     //Sunrise
     private val sunriseSource = SunriseDataSource()
     private lateinit var sunriseData: Location

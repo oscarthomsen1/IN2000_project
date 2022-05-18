@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         //region autoComplete-Søk
         //Ansvarlig Tiril
         //Vi benytter oss av Google sitt Places-API for søk etter steder
-        Places.initialize(getApplicationContext(), getString(R.string.apiKey))
+        Places.initialize(applicationContext, getString(R.string.apiKey))
         Places.createClient(this)
 
         //Følgende kode er hentet fra: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
@@ -107,8 +106,6 @@ class MainActivity : AppCompatActivity() {
         })
         //endregion
 
-
-
         //region onClick-Menubar
         //Ansvarlig Tobias
         // Setting a onclick listener for the bottom navigation menu.
@@ -120,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //region oppdater view
-    //Ansvarlig Julia
+    //Ansvarlig Julia: Cardview og Oscar: Graf
     //Metode som kommuniserer mot API-ene via ViewModelen og binder til viewet
     fun bind(lat: Double, lon: Double){
         viewModel.loadProbability(lat, lon).also {
@@ -169,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                         .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
                 }
 
-                //region graph forecast
+                //graph forecast
                 //Ansvarlig: Oscar
                 viewModel.loadGraphData()
                 viewModel.getGraphData().observe(this) {
@@ -190,20 +187,19 @@ class MainActivity : AppCompatActivity() {
                     val data = LineData(dataset)
                     binding.nordlysGraf.data = data
                     binding.nordlysGraf.invalidate()
-                    //end region
                 }
             }
         }
     }
 
-    fun setVisibility(view: View){
+    private fun setVisibility(view: View){
         if (view.visibility == View.INVISIBLE){
             view.visibility = View.VISIBLE
         }
     }
 
-    fun onErrorView() {
-        binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text = "Ingen data"
+    private fun onErrorView() {
+        binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text = getString(R.string.ingen_data)
     }
     //endregion
 
@@ -256,7 +252,7 @@ class MainActivity : AppCompatActivity() {
 
                     bind(lat, lon)
                     binding.sannsynlighetsView.findViewById<TextView>(R.id.location).text =
-                        "Din posisjon"
+                        getString(R.string.din_posisjon)
                 } else {
                     Toast.makeText(this, "Kunne ikke hente posisjon", Toast.LENGTH_SHORT).show()
                     onErrorView()
@@ -407,6 +403,5 @@ class MainActivity : AppCompatActivity() {
             return value.toString()
         }
     }
-    //end region
-
+    //endregion
 }
