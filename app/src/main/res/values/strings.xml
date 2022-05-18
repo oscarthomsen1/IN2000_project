@@ -36,17 +36,17 @@ Han formulerte den første fullstendige nordlysteorien og hans arbeid innledet d
     </string>
     <string name="nordlysInfo3">"Den sorte grafen fremviser skydekke for ditt område. Skydekke viser prosentdel av himmelen som er forventet dekket av skyer. Det er ønskelig å ha minst mulig skydekke for å se etter nordlys, men man kan fortsatt se lyset med høyt skydekke.
 
-Den blå grafen viser kp-indeksen. Kp-indeks er et godt mål for sannsynligheten for at nordlys vil oppstå, og det høyere kp, det bedre. Det er forskjellig kp for forskjellige posisjoner på kloden, og ved høyre høydegrad vil du trenge en lavere kp for å kunne se lyset. For eksempel vil kp på 1 være tilstrekkelig I Tromsø, mens man I Oslo vil trenge 5.
+Den blå grafen viser kp-indeksen. Kp-indeks er et godt mål for sannsynligheten for at nordlys vil oppstå. Høyere kp-indeks gir bedre muligheter for å se nordlys. Kp-indeksen påvirkes også av hvilken breddegrad man befinner seg på, lengre nord trenger man lavere kp for å kunne se nordlyset. For eksempel vil kp på 1 være tilstrekkelig I Tromsø, mens man I Oslo vil trenge kp på 5.
 
-Solnedgang er også viktig for å se nordlyset. Da solen lyser mye sterkere enn nordlyset, er det viktig at den har gått ned for å kunne se det.
+Solnedgang er også viktig for å se nordlyset. Fordi solen lyser mye sterkere enn nordlyset, er det viktig at den har gått ned for å kunne se nordlys.
 
-Grafen viser data for de kommende to dagene, da det ikke er mulig å forutse solstormer lengre ut I fremtiden. Dette kommer av at solstormer reiser I tre døgn fra solen til oss."
+Grafen viser data for de kommende to dagene, da det ikke er mulig å forutse solstormer lenger frem i  tid. Dette kommer av at solstormer reiser fra sola i tre døgn før de når jorda."
 </string>
-    <string name="nordlysInfo4">"Appen bruker din posisjon til å fremvise skydekket I ditt område. Når skydekket er lavt, og solen er nede, kreves det en relativ kp-indeks avhengig av hvor på kloden du befinner deg.
+    <string name="nordlysInfo4">"Appen bruker din posisjon til å fremvise skydekket I ditt område. Når himmelen er skyfri, og solen er nede, avhenger nordlyssannsynligheten av en relativ kp-indeks. Kp-indeksen avhenger dessuten av hvilken breddegrad du er ved.
 
-Om kp-en kun har en verdi på én, vil du for eksempel bare kunne se nordlys om du finner deg i 'Kp 1', som vist i nord på bildet under.
+Om kp-indeksen kun har en verdi på én, vil du for eksempel bare kunne se nordlys om du befinner deg 65 grader nord, som vist i nord på bildet under.
 
-Dersom kp-en er på 9, vil du kunne se nordlyset helt ned til London, som befinner seg på 'Kp' 9”."
+Dersom kp-indeksen er på 8, vil du kunne se nordlyset helt ned til London, som befinner seg på breddegrad 51"
 </string>
 
     <string name="nordlysInfo5">"KP-indeks for ditt område:

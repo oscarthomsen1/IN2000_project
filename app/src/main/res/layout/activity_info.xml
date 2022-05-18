@@ -27,10 +27,11 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="267dp"
+                android:layout_width="0dp"
                 android:text="@string/Nordlys"
                 android:textAlignment="center"
                 android:textSize="24sp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
