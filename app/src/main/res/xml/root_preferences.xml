@@ -9,13 +9,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Location">
-
-        <SwitchPreferenceCompat
-            app:key="location"
-            app:title="Location Permission"
-            />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>
