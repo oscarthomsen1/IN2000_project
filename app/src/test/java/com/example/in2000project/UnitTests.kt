@@ -1,6 +1,7 @@
 package com.example.in2000project
 
 import com.example.in2000project.MainActivity
+import com.github.mikephil.charting.data.Entry
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +26,7 @@ class UnitTests {
     }
 
     @Test
-    fun test_MainActivity_INSERTMETHOD() {
+    fun test_MainActivity_datavalues1() {
         // Accesses the class MainActivity
         val classUnderTest = Mockito.mock(MainActivity::class.java)
 
@@ -36,9 +37,14 @@ class UnitTests {
         method.isAccessible = true
 
         // A predefined set of input parameters
-        val parameters: MutableList<Float>
-//        parameters.add(2.2F)
-            //inn - MutableList<Float?>) : out - ArrayList<Entry>
+        val parameters = mutableListOf<Float>()
+        parameters.addAll(listOf(1.toFloat(), 2.toFloat(), 3.toFloat()))
+
+        val expectedResult = ArrayList<Entry>()
+
+        val actualResult = method(parameters)
+
+        assertThat(actualResult).isEqualTo(expectedResult)
 
     }
 }
