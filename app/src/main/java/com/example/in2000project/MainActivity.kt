@@ -313,7 +313,7 @@ class MainActivity : AppCompatActivity() {
         xAxis.valueFormatter = XAxisFormater()
         xAxis.position = XAxis.XAxisPosition.BOTTOM
     }
-    private fun datavalues1(data : MutableList<Float?>) : ArrayList<Entry> {
+    fun datavalues1(data : MutableList<Float?>) : ArrayList<Entry> {
         val punkter = ArrayList<Entry>()
         for (i in 0 until data.size) {
             val x = (i*3).toFloat()
@@ -321,7 +321,7 @@ class MainActivity : AppCompatActivity() {
         }
         return punkter
     }
-    private fun datavalues2(data : MutableList<Float?>) : ArrayList<Entry> {
+    fun datavalues2(data : MutableList<Float?>) : ArrayList<Entry> {
         var i = 0
         val punkter = ArrayList<Entry>()
         when(localTime.hour-2) {
