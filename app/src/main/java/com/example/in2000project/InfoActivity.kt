@@ -1,16 +1,11 @@
 package com.example.in2000project
 
 
-import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.in2000project.databinding.ActivityInfoBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView

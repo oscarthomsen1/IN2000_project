@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 
@@ -15,7 +14,7 @@ import androidx.preference.PreferenceManager
 class SettingsActivity : AppCompatActivity() {
 
     private val TAG = "SettingsActivity"
-    lateinit var actionBar: ActionBar
+    private lateinit var actionBar: ActionBar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +41,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // An onClickListener that restarts the activity when the darkmode
         // settings change.
-        sharedPrefs.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+        sharedPrefs.registerOnSharedPreferenceChangeListener { sharedPreferences, _ ->
             val darkmodeSwitch = sharedPreferences.getBoolean("darkmode_switch", false)
             Log.d(TAG, "Dark mode value changed to:$darkmodeSwitch")
             startActivity( Intent(this, SettingsActivity::class.java) )

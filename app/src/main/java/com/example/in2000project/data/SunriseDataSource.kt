@@ -18,7 +18,7 @@ class SunriseDataSource {
     private val url = "https://in2000-apiproxy.ifi.uio.no/weatherapi/sunrise/2.0/.json?"
 
     //Fetches data from the sunrise API for date only
-    suspend fun FetchSunriseNowcast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
+    suspend fun fetchSunriseNowcast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
         val parameters = listOf("lat" to lat, "lon" to lon, "date" to date, "offset" to "+02:00") //Kanskje lurt å endre offset etter hovr vi er.
 
         return try {
@@ -36,26 +36,6 @@ class SunriseDataSource {
         }
     }
 
-    //Fetches data from the sunrise API for date and 2 days forward (total of 3 days)
-    suspend fun FetchSunriseForecast(lat: Double, lon: Double, date: String): Location? { //burde kanskje ta inn parameterne?
-        val parameters = listOf("date" to date, "days" to "3", "lat" to lat, "lon" to lon, "offset" to "+02:00") //Kanskje lurt å endre offset etter hvor vi er.
-
-        return try {
-            val res = Fuel.get(url, parameters).awaitString()
-            //Log.d("DATASOURCE", res)
-            val response =  gson.fromJson(res, Base::class.java)
-
-            //Log.d("DATASOURCE", response.location.toString())
-            if (response != null) Log.d(TAG, "Got response from Sunrise API")
-            response.location
-
-        } catch (exception: Exception) {
-            Log.d(TAG,"A network request exception was thrown from Sunrise ${exception.message}")
-            null
-        }
-        //TODO("endre offset etter hvor man er i verden (
-        // f.eks. avhengig av land ? ")
-    }
 }
 
 

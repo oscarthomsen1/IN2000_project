@@ -14,14 +14,14 @@ package com.example.in2000project.utils
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import android.Manifest.permission.*
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 
@@ -30,41 +30,6 @@ import androidx.fragment.app.DialogFragment
  * Utility class for access to runtime permissions.
  */
 object PermissionUtils {
-
-    /**
-     * Requests the fine and coarse location permissions. If a rationale with an additional
-     * explanation should be shown to the user, displays a dialog that triggers the request.
-     */
-    fun requestLocationPermissions(
-        activity: AppCompatActivity,
-        requestId: Int,
-        finishActivity: Boolean
-    ) {
-        if (
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                ACCESS_FINE_LOCATION
-            ) ||
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                ACCESS_COARSE_LOCATION
-            )
-        ) {
-            // Display a dialog with rationale.
-            RationaleDialog.newInstance(requestId, finishActivity)
-                .show(activity.supportFragmentManager, "dialog")
-        } else {
-            // Location permission has not been granted yet, request it.
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(
-                    ACCESS_FINE_LOCATION,
-                    ACCESS_COARSE_LOCATION
-                ),
-                requestId
-            )
-        }
-    }
 
     /**
      * Checks if the result contains a [PackageManager.PERMISSION_GRANTED] result for a
@@ -147,7 +112,7 @@ object PermissionUtils {
                 arguments?.getBoolean(ARGUMENT_FINISH_ACTIVITY) ?: false
             return AlertDialog.Builder(activity)
                 .setMessage("R.string.permission_rationale_location")
-                .setPositiveButton(android.R.string.ok) { dialog, which -> // After click on Ok, request the permission.
+                .setPositiveButton(android.R.string.ok) { _, _ -> // After click on Ok, request the permission.
                     ActivityCompat.requestPermissions(
                         requireActivity(),
                         arrayOf(

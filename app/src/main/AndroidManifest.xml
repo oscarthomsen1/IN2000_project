@@ -24,8 +24,6 @@
         android:theme="@style/Theme.IN2000ProjectDark"
         -->
         <!--
-             TODO: Before you run your application, you need a Google Maps API key.
-
              To get one, follow the directions here:
 
                 https://developers.google.com/maps/documentation/android-sdk/get-api-key

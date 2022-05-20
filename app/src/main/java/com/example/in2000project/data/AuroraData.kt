@@ -122,7 +122,7 @@ class AuroraData {
 
     private suspend fun getSunrise(){
         //hente og sette info fra API i en variabel sender in lon og lat og tid
-        sunriseData = sunriseSource.FetchSunriseNowcast(lat, lon, date.toString())!!
+        sunriseData = sunriseSource.fetchSunriseNowcast(lat, lon, date.toString())!!
 
         if (::sunriseData.isInitialized){
             setSunriseAndSunset()

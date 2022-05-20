@@ -6,10 +6,12 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -40,7 +42,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-//test
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = "MainActivity"
@@ -100,7 +102,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(status: Status) {
-                // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: $status")
             }
         })
@@ -121,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     //Metode som kommuniserer mot API-ene via ViewModelen og binder til viewet
     fun bind(lat: Double, lon: Double){
         viewModel.loadProbability(lat, lon).also {
-            viewModel.getData().observe(this@MainActivity) {
+            viewModel.getData().observe(this@MainActivity) { list ->
                 binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
                     LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
                         .toString()
@@ -130,16 +131,16 @@ class MainActivity : AppCompatActivity() {
                 setVisibility(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
 
                 binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text =
-                    it[0].toString()
+                    list[0].toString()
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight))
 
                 binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text =
-                    it[4].toString()
+                    list[4].toString()
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex))
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndexLabel))
 
                 binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
-                    it[3].toString() + "%"
+                    list[3].toString() + "%"
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage))
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverageLabel))
 
@@ -148,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                 // Checks if there are clouds. If yes, shows cloud icon whether it's day or night
                 // Checks if it is night. If yes shows moon icon
                 // Otherwise shows sun icon
-                if (it[0] == "Høy sjanse for å se nordlys") {
+                if (list[0] == "Høy sjanse for å se nordlys") {
                     Glide.with(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
                         .load(R.drawable.ic_aurora)
                         .into(binding.sannsynlighetsView.findViewById(R.id.weatherImage))
@@ -174,10 +175,17 @@ class MainActivity : AppCompatActivity() {
                     val skydekeLinje = LineDataSet(datavalues2(it[1]) , "sky verdier")
                     costumizeGraph(binding.nordlysGraf)
 
-                    kpLinje.color = getColor(R.color.md_theme_dark_onTertiary)
+                    //Farger endrer seg etter tema
+                    val typedValue = TypedValue()
+                    theme.resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true)
+                    @ColorInt val kpColor = typedValue.data
+                    theme.resolveAttribute(com.google.android.material.R.attr.color, typedValue, true)
+                    @ColorInt val skyColor = typedValue.data
+
+                    kpLinje.color = kpColor
                     kpLinje.setDrawCircles(false)
                     kpLinje.valueFormatter = KPValueFormater()
-                    skydekeLinje.color = getColor(R.color.md_theme_dark_surface)
+                    skydekeLinje.color = skyColor
                     skydekeLinje.setDrawCircles(false)
                     skydekeLinje.valueFormatter = SkyValueFormater()
                     val dataset = ArrayList<ILineDataSet>()
@@ -289,14 +297,20 @@ class MainActivity : AppCompatActivity() {
         graph.setDrawBorders(true)
         graph.description = null
 
+        val typedValue = TypedValue()
+        theme.resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true)
+        @ColorInt val kpColor = typedValue.data
+        theme.resolveAttribute(com.google.android.material.R.attr.color, typedValue, true)
+        @ColorInt val skyColor = typedValue.data
+
         val legend = graph.legend
         val legendentries = ArrayList<LegendEntry>()
         val legendentryKp = LegendEntry()
-        legendentryKp.formColor = getColor(R.color.md_theme_dark_onTertiary)
+        legendentryKp.formColor = kpColor
         legendentryKp.label = "KP"
         legendentries.add(legendentryKp)
         val legendEntrySky = LegendEntry()
-        legendEntrySky.formColor = getColor(R.color.md_theme_dark_surface)
+        legendEntrySky.formColor = skyColor
         legendEntrySky.label = "Skydekke"
         legendentries.add(legendEntrySky)
         legend.setCustom(legendentries)
