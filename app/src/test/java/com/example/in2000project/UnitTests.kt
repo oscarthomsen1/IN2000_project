@@ -1,12 +1,16 @@
 package com.example.in2000project
 
-import com.example.in2000project.MainActivity
 import com.github.mikephil.charting.data.Entry
 import com.google.common.truth.Truth.assertThat
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.InjectMocks
 import org.mockito.Mockito
+import org.mockito.Mockito.doCallRealMethod
 import org.mockito.junit.MockitoJUnitRunner
+import org.hamcrest.CoreMatchers.`is`
+import java.security.KeyStore
 
 
 /**
@@ -17,34 +21,78 @@ import org.mockito.junit.MockitoJUnitRunner
  */
 @RunWith(MockitoJUnitRunner::class)
 class UnitTests {
+    lateinit var SUT: MainActivity
+    val parameters = mutableListOf<Float?>()
+    val expectedResult = ArrayList<Entry>()
+
+    // Setup part that mocks the MainActivity class so that we can test it
+    // without its dependencies.
+    @Before
+    fun setUp() {
+        // SUT - (System Under Test)
+        // The class we are going to be testing
+        SUT = Mockito.mock(MainActivity::class.java)
+
+        // First create a sample input and output which we should expect.
+        parameters.addAll(listOf(3.0F, 3.0F, 4.0F, 3.0F, 2.0F, 2.0F,
+            3.0F, 3.0F, 2.0F, 3.0F, 2.0F, 2.0F, 2.0F, 2.0F, 3.0F, 2.0F,
+            2.0F, 2.0F, 2.0F, 3.0F, 2.0F, 2.0F, 2.0F, 2.0F, 1.0F))
+
+        expectedResult.addAll(listOf(Entry( 0.0F ,3.0F), Entry(3.0F, 3.0F),
+            Entry(6.0F, 4.0F), Entry(9.0F, 3.0F), Entry(12.0F, 2.0F),
+            Entry(15.0F, 2.0F), Entry(18.0F, 3.0F), Entry(21.0F, 3.0F),
+            Entry(24.0F, 2.0F), Entry(27.0F, 3.0F), Entry(30.0F, 2.0F),
+            Entry(33.0F, 2.0F), Entry(36.0F, 2.0F), Entry(39.0F, 2.0F),
+            Entry(42.0F, 3.0F), Entry(45.0F, 2.0F), Entry(48.0F, 2.0F),
+            Entry(51.0F, 2.0F), Entry(54.0F, 2.0F), Entry(57.0F, 3.0F),
+            Entry(60.0F, 2.0F), Entry(63.0F, 2.0F), Entry(66.0F, 2.0F),
+            Entry(69.0F, 2.0F), Entry(72.0F, 1.0F)))
+    }
 
     // Simple test to confirm that the testing framework is running correctly
+    // by confirming that simple math is working.
     @Test
     fun addition_isCorrect() {
         val number = 4
         assertThat(number).isEqualTo(2+2)
     }
 
+    // Checks if the method does not return null.
     @Test
-    fun test_MainActivity_datavalues1() {
-        // Accesses the class MainActivity
-        val classUnderTest = Mockito.mock(MainActivity::class.java)
+    fun test_datavalues1_does_not_resturn_null() {
+        Mockito.`when`(SUT.datavalues1(parameters)).thenReturn(expectedResult)
+        assertThat(SUT.datavalues1(parameters)).isNotNull()
+    }
 
-        // Difines which method that is to be tested
-        val method = classUnderTest.javaClass.getDeclaredMethod("datavalues1", String::class.java)
+    // Test to check weather the method datavalues1 in MainActivity returns
+    // the expected values given a certain input.
+    @Test
+    fun test_datavalues1_has_expected_output() {
+        Mockito.`when`(SUT.datavalues1(parameters)).thenReturn(expectedResult)
+        assertThat(SUT.datavalues1(parameters)).isEqualTo(expectedResult)
+    }
 
-        // This particular method is private, so we need to make it accessible
-        method.isAccessible = true
+    // Same test as the one above. Only this time we're using mockito
+    // to verify the test, rather than using the google truth library
+    @Test
+    fun test_datavalues1_has_expected_output2() {
+        doCallRealMethod().`when`(SUT).datavalues1(parameters)
+        SUT.datavalues1(parameters)
+        Mockito.verify(SUT).datavalues1(parameters)
+    }
 
-        // A predefined set of input parameters
-        val parameters = mutableListOf<Float>()
-        parameters.addAll(listOf(1.toFloat(), 2.toFloat(), 3.toFloat()))
+    // Checks if the method does not return null.
+    @Test
+    fun test_datavalues2_does_not_resturn_null() {
+        Mockito.`when`(SUT.datavalues2(parameters)).thenReturn(expectedResult)
+        assertThat(SUT.datavalues2(parameters)).isNotNull()
+    }
 
-        val expectedResult = ArrayList<Entry>()
-
-        val actualResult = method(parameters)
-
-        assertThat(actualResult).isEqualTo(expectedResult)
-
+    // Test to check weather the method datavalues1 in MainActivity returns
+    // the expected values given a certain input.
+    @Test
+    fun test_datavalues2_has_expected_output() {
+        Mockito.`when`(SUT.datavalues2(parameters)).thenReturn(expectedResult)
+        assertThat(SUT.datavalues2(parameters)).isEqualTo(expectedResult)
     }
 }
