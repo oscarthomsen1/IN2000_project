@@ -13,9 +13,11 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4ClassRunner::class)
 class SettingsActivityTest {
 
+    // Sets up the MainActivity so it can be tested
     @get:Rule
     val activityRule: ActivityScenarioRule<SettingsActivity> = ActivityScenarioRule(SettingsActivity::class.java)
 
+    // Tests if the correct activity is currently being displayed
     @Test
     fun test_isActivityInView() {
         onView(withId(R.id.settings_activity)).check(matches(isDisplayed()))  // Visibility test method 1

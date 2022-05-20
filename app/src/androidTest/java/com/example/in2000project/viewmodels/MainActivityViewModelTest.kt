@@ -21,27 +21,35 @@ class MainActivityViewModelTest {
 
     @Before
     fun setUp() {
+        // Sets up the class for testing
         viewModel = MainActivityViewModel()
+
+        // Calls a method that gets all the information form the API
+        // so that the class gets filled with data
         viewModel.loadProbability(59.9139, 10.7522)
     }
 
+    // Test to ensure that the right class is currently active
     @Test
     fun testIfViewModelHasTag() {
         assertThat(viewModel.TAG).isEqualTo("MainActivityViewModel")
 
     }
 
+    // LiveData test that references the custom made extension method
+    // "getOrAwaitValue" from LiveDataTestUtils file.
+    // Tests if the LiveData property in the viewmodel class
+    // gets new data after loadProbability is called
     @Test
     fun testLiveData() {
         val result = viewModel.viewModelData.getOrAwaitValue()
-        Log.d("testLiveData", result.toString())
         assertThat(result != null).isTrue()
     }
 
+    // tests if the method getData actually gets the correct value
     @Test
     fun testGetData() {
         val result = viewModel.viewModelData
-        Log.d("testGetData", result.toString())
         assertThat(result).isEqualTo(viewModel.getData())
     }
 }

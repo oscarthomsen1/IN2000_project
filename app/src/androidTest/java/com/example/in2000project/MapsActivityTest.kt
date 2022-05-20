@@ -12,15 +12,21 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MapsActivityTest {
 
+    // Sets up the MainActivity so it can be tested
     @get:Rule
-    val activityRule: ActivityScenarioRule<MainActivity> = ActivityScenarioRule(MainActivity::class.java)
+    val activityRule: ActivityScenarioRule<MapsActivity> = ActivityScenarioRule(MapsActivity::class.java)
 
+    // Tests if the correct activity is currently being displayed
     @Test
     fun test_isActivityInView() {
         onView(ViewMatchers.withId(R.id.maps_activity))
             .check(matches(ViewMatchers.isDisplayed()))
     }
 
+    /**
+     * The rest of the tests are testing of certain views
+     * are currently being displayed on the screen.
+     */
     @Test
     fun test_visibility_map() {
         onView(ViewMatchers.withId(R.id.map))

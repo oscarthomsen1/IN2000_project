@@ -14,6 +14,8 @@ import java.util.concurrent.TimeoutException
  */
 fun<T> LiveData<T>.getOrAwaitValue(): T{
     var data: T? = null
+
+    // Sets a latch to handle LiveData from other threads.
     val latch = CountDownLatch(1)
 
     val observer = object : Observer<T> {
@@ -26,6 +28,7 @@ fun<T> LiveData<T>.getOrAwaitValue(): T{
 
     this.observeForever(observer)
 
+    // Sets a timeout of 2 seconds for the API response
     try {
         if(!latch.await(2, TimeUnit.SECONDS)){
             throw TimeoutException("Live Data never gets its value")
