@@ -51,7 +51,7 @@ data class Meta(val licenseurl: String?)
 data class Location(val height: String?, val latitude: String?, val longitude: String?, val time: List<Time>?)
 
 //Hvert time-objekt er en dag.
-data class Time(val date: String?, val high_moon: High_moon?, val low_moon: Low_moon?, val moonphase: Moonphase?, val moonposition: Moonposition?, val moonrise: Moonrise?, val moonset: Moonset?, val moonshadow: Moonshadow?, val solarmidnight: Solarmidnight?, val solarnoon: Solarnoon?, val sunrise: Sunrise?, val sunset: Sunset?)
+data class Time(val date: String?, val highmoon: Highmoon?, val lowmoon: Lowmoon?, val moonphase: Moonphase?, val moonposition: Moonposition?, val moonrise: Moonrise?, val moonset: Moonset?, val moonshadow: Moonshadow?, val solarmidnight: Solarmidnight?, val solarnoon: Solarnoon?, val sunrise: Sunrise?, val sunset: Sunset?)
 
 
 //Hvis noen av elementene mangler: betyr det at månen eller sola ikke går under eller over horisonten
@@ -65,9 +65,9 @@ data class Sunrise(val desc: String?, val time: String?)
 data class Sunset(val desc: String?, val time: String?)
 
 //Måneinfo
-data class High_moon(val desc: String?, val elevation: String?, val time: String?)
+data class Highmoon(val desc: String?, val elevation: String?, val time: String?)
 
-data class Low_moon(val desc: String?, val elevation: String?, val time: String?)
+data class Lowmoon(val desc: String?, val elevation: String?, val time: String?)
 
 data class Moonphase(val desc: String?, val time: String?, val value: String?)
 

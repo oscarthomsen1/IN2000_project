@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Setting up actionBar
         setSupportActionBar(findViewById(R.id.my_toolbar))
-        actionBar = getSupportActionBar()!!
+        actionBar = supportActionBar!!
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true)
 
