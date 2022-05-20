@@ -21,9 +21,9 @@ import java.security.KeyStore
  */
 @RunWith(MockitoJUnitRunner::class)
 class UnitTests {
-    lateinit var SUT: MainActivity
-    val parameters = mutableListOf<Float?>()
-    val expectedResult = ArrayList<Entry>()
+    private lateinit var SUT: MainActivity
+    private val parameters = mutableListOf<Float?>()
+    private val expectedResult = ArrayList<Entry>()
 
     // Setup part that mocks the MainActivity class so that we can test it
     // without its dependencies.
@@ -59,7 +59,7 @@ class UnitTests {
 
     // Checks if the method does not return null.
     @Test
-    fun test_datavalues1_does_not_resturn_null() {
+    fun test_datavalues1_does_not_return_null() {
         Mockito.`when`(SUT.datavalues1(parameters)).thenReturn(expectedResult)
         assertThat(SUT.datavalues1(parameters)).isNotNull()
     }
