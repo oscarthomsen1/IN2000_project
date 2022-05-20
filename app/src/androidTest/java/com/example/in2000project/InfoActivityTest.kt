@@ -89,6 +89,6 @@ class InfoActivityTest {
     @Test
     fun test_text_in_textview3() {
         onView(ViewMatchers.withId(R.id.textView3))
-            .check(matches(withText(R.string.nordlysInfo2)))
+            .check(matches(withText(R.string.nordlysInfo3)))
     }
 }
