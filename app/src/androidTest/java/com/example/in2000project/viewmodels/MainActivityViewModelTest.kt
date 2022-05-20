@@ -1,16 +1,13 @@
 package com.example.in2000project.viewmodels
 
-import android.content.Context
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.in2000project.getOrAwaitValue
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.google.common.truth.Truth.assertThat
-import org.junit.Rule
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityViewModelTest {
