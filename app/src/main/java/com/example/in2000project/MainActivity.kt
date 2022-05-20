@@ -124,26 +124,28 @@ class MainActivity : AppCompatActivity() {
         viewModel.loadProbability(lat, lon).also {
             viewModel.getData().observe(this@MainActivity) { list ->
                 binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime).text =
-                    LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-                        .toString()
+                    LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")).toString()
+
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.currentTime))
 
                 setVisibility(binding.sannsynlighetsView.findViewById<ImageView>(R.id.weatherImage))
 
-                binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text =
-                    list[0].toString()
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight).text = list[0].toString()
+
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.northernLight))
 
-                binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text =
-                    list[4].toString()
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex).text = list[4].toString()
+
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndex))
+
                 setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.kpIndexLabel))
 
-                binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text =
-                    list[3].toString() + "%"
-                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage))
-                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverageLabel))
+                val tmpText = list[3].toString() + "%"
+                binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage).text = tmpText
 
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverage))
+
+                setVisibility(binding.sannsynlighetsView.findViewById<TextView>(R.id.cloudCoverageLabel))
 
                 // Checks if there is a high chance of seeing aurora. If yes, show aurora icon
                 // Checks if there are clouds. If yes, shows cloud icon whether it's day or night

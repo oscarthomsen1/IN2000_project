@@ -16,7 +16,7 @@ import java.security.KeyStore
 /**
  * All of the unit tests divided pr activity
  * Some of the activities has proven difficult to run unit tests on
- * because of the high dpendency of android specific libraries.
+ * because of the high dependency of android specific libraries.
  * This has resulted in a lot more integration tests, than unit tests.
  */
 @RunWith(MockitoJUnitRunner::class)
